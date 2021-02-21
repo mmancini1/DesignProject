@@ -1,0 +1,19 @@
+.signup_container {
+    width: 400px;
+    margin: 0 auto;
+    align-content: center;
+    background-color: whitesmoke;
+}
+
+.signup_input {
+    widows: 100%;
+}
+
+button {
+    width: 100%;
+}
+
+.signup_action {
+    font-size: 14px;
+    padding: 8.85px 13px;
+}

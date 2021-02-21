@@ -1,0 +1,13 @@
+<div class="signup_container">
+    <form #userForm="ngForm" (ngSubmit)="onSave(userForm.value)">
+        <input class="signin_input signin_action" [(ngModel)]="name" placeholder="Name" name="name" required>
+        <input class="signin_input signin_action" [(ngModel)]="email" placeholder="Email Address" name="email" required>
+        <input class="signin_input signin_action" [(ngModel)]="addr" placeholder="Street Address" name="addr" required>
+        <input class="signin_input signin_action" [(ngModel)]="city" placeholder="City" name="city" required>
+        <input class="signin_input signin_action" [(ngModel)]="state" placeholder="State" name="state" required>
+        <input class="signin_input signin_action" [(ngModel)]="zip" placeholder="Zip" name="zip" required>
+        <input class="signin_input signin_action" [(ngModel)]="pass" placeholder="Password" name="pass" required>
+        <input class="signin_input signin_action" placeholder="Confirm Password" name="conPass" required>
+        <button>Sign Up</button>
+    </form>
+</div>
