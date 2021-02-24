@@ -16,6 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { SignupComponent } from './components/signup/signup.component';
+import { BeerListComponent } from './components/beer-list/beer-list.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { SignupComponent } from './components/signup/signup.component';
     AppComponent,
     LoginComponent,
     HomeComponent,
-    SignupComponent
+    SignupComponent,
+    BeerListComponent
   ],
   imports: [
     BrowserModule,

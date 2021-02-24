@@ -16,24 +16,23 @@ export class SignupComponent implements OnInit {
   state: String;
   zip: String;
   pass: String;
-
+  conPass:String;
 
   constructor(private newService :CommonService,) { }
 
   ngOnInit(): void {
   }
 
-  onSave = function(user,isValid ?: boolean) {    
-    console.log("onSave edit => ", user);
-     this.newService.signUp(user)  
-     .subscribe(data =>  {  alert(data.data);  
-          
-       this.ngOnInit();    
-     }   
-     , error => this.errorMessage = error )  
-       
-   }  
+  onSave = function(user) {   
+    console.log(user.Validators);
+    //  this.newService.signUp(user.value)  
+    //  .subscribe(data =>  {  alert(data.data);  
+    //    this.ngOnInit();    
+    //  }   
+    //  , error => this.errorMessage = error )  
+   }
 }
+
 
 export interface User {
   name: String;

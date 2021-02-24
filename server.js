@@ -2,6 +2,9 @@ const express = require('express');
 const path = require("path");
 const bodyParser = require('body-parser');
 const mongo = require("mongoose");
+const bcrypt = require("bcrypt");
+const salt = 10;
+
 
 const db = mongo.connect("mongodb://localhost:27017/designProject", function(err, response) {
     if (err) { console.log(err); } else { console.log('Connected to ' + db, ' + ', response); }
@@ -37,14 +40,13 @@ const UsersSchema = new Schema({
 
 
 const beerSchema = new Schema({
-    firstName: { type: String },
-    lastName: { type: String },
-    email: { type: String },
-    phoneNo: { type: String },
-    addr: { type: String },
-    city: { type: String },
-    state: { type: String },
-    zip: { type: String },
+    brewery: { type: String },
+    date: { type: String },
+    beers: {
+        name: { type: String },
+        price: { type: String },
+        description: { type: String },
+    },
 }, { versionKey: false });
 
 
@@ -58,20 +60,57 @@ const SignUpSchema = new Schema({
     pass: { type: String },
 }, { versionKey: false });
 
-
+//schema /db
 const model = mongo.model('users', UsersSchema, 'users');
-const signUp = mongo.model('user', SignUpSchema, 'user');
+const users = mongo.model('user', SignUpSchema, 'user');
+const beers = mongo.model('breweries', beerSchema, 'breweries');
 
+//saves user info to db
 app.post("/api/SignUp", function(req, res) {
-    const mod = new signUp(req.body);
-    mod.save(function(err, data) {
+    bcrypt.hash(req.body.pass, salt, (err, hash) => {
+        req.body.pass = hash;
+        const usr = new users(req.body);
+        //need to check if email exists
+        usr.save(function(err, data) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.send({ data: "Record has been Inserted..!!" });
+            }
+        });
+    });
+});
+
+//verify user
+app.post("/api/login", function(req, res) {
+    users.findOne({ email: req.body.email }, function(err, result) {
+        bcrypt.compare(req.body.pass, result.pass, (err, match) => {
+            if (err) {
+                throw err
+            } else if (!match) {
+                res.send(false);
+            } else {
+                res.send(true);
+            }
+        });
+    });
+});
+
+
+//retrieve beer
+app.get("/api/getBeer", function(req, res) {
+    const dt = "02/21/21";
+    beers.find({ date: dt }, function(err, result) {
+        console.log(result);
         if (err) {
             res.send(err);
         } else {
-            res.send({ data: "Record has been Inserted..!!" });
+            res.send({ result });
         }
     });
-})
+});
+
+
 
 
 app.post("/api/SaveUser", function(req, res) {

@@ -28,6 +28,11 @@ nav a.active {
     color: #039be5;
 }
 
+body {
+    background-color: lightgray;
+    opacity: 80%;
+}
+
 
 /*
 Copyright Google LLC. All Rights Reserved.

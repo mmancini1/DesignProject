@@ -298,7 +298,7 @@
     <mat-card class="example-card">
         <mat-card-content>
             <form #userForm="ngForm" (ngSubmit)="onSave(userForm.value)" novalidate>
-                <!-- <p>Is "myForm" valid? {{userForm.valid}}</p> -->
+                <p>Is "myForm" valid? {{userForm.valid}}</p>
                 <div class="row">
                     <input name="id" type="hidden" [(ngModel)]="id" />
 
