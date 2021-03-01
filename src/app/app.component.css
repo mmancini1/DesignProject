@@ -29,7 +29,10 @@ nav a.active {
 }
 
 body {
-    background-color: lightgray;
+    background-color: whitesmoke;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
     opacity: 80%;
 }
 

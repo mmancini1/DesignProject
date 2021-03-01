@@ -88,8 +88,8 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
-  phoneNo:string;
-  addr:string;
+  phoneNo: string;
+  addr: string;
   city: string;
   state: string;
   zip: string;

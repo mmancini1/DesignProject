@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../service';
-import {FormGroup,FormControl,Validators,FormsModule, } from '@angular/forms';  
+import { FormGroup,FormControl,Validators,FormsModule, } from '@angular/forms';  
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -18,7 +19,8 @@ export class SignupComponent implements OnInit {
   pass: String;
   conPass:String;
 
-  constructor(private newService :CommonService,) { }
+  constructor(private newService :CommonService,
+              private route: Router,) { }
 
   ngOnInit(): void {
   }
@@ -30,6 +32,7 @@ export class SignupComponent implements OnInit {
     //    this.ngOnInit();    
     //  }   
     //  , error => this.errorMessage = error )  
+    this.route.navigate(['/notify']);
    }
 }
 
