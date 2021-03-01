@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../service';
-import {FormGroup,FormControl,Validators,FormsModule, } from '@angular/forms';  
+import { FormGroup, FormControl, Validators, FormsModule, FormBuilder } from '@angular/forms';  
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,18 +9,33 @@ import {FormGroup,FormControl,Validators,FormsModule, } from '@angular/forms';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
+  registerForm: FormGroup;
   email: String;
   pass: String;
+  submitted = false;
 
+  constructor(private newService: CommonService,
+              private route: Router,
+              private formBuilder: FormBuilder,) { }
 
-  constructor(private newService :CommonService,) { }
-
-  ngOnInit(): void {
+  ngOnInit() {
+        this.registerForm = this.formBuilder.group({
+            email: ['', [Validators.required, Validators.email]],
+            pass: ['', [Validators.required, Validators.minLength(6)]]
+        });
   }
 
-  onSubmit = function(user) {   
-    console.log(user.value); 
+  get f() { return this.registerForm.controls; }
+
+  onSubmit(){  
+    this.submitted = true;
+    console.log(this.registerForm.value);
+            // stop here if form is invalid
+        if (this.registerForm.invalid) {
+            return;
+        }
+    console.log(); 
+
   //    this.newService.login(user.value)  
   //    .subscribe(data => {  
   //      if(data){
@@ -33,6 +49,9 @@ export class LoginComponent implements OnInit {
 
   //      }
   //    }, error => this.errorMessage = error )  
-  //  }
+    this.route.navigate(['/beerlist']);
   }
+
+
+
 }

@@ -2,6 +2,7 @@ const express = require('express');
 const path = require("path");
 const bodyParser = require('body-parser');
 const mongo = require("mongoose");
+const moment = require('moment');
 const bcrypt = require("bcrypt");
 const salt = 10;
 
@@ -40,13 +41,15 @@ const UsersSchema = new Schema({
 
 
 const beerSchema = new Schema({
+    name: { type: String },
+    price: { type: Number },
+    abv: { type: String },
+    ibu: { type: String },
+    rating: { type: String },
+    description: { type: String },
     brewery: { type: String },
     date: { type: String },
-    beers: {
-        name: { type: String },
-        price: { type: String },
-        description: { type: String },
-    },
+    previousDate: { type: Array },
 }, { versionKey: false });
 
 
@@ -63,7 +66,7 @@ const SignUpSchema = new Schema({
 //schema /db
 const model = mongo.model('users', UsersSchema, 'users');
 const users = mongo.model('user', SignUpSchema, 'user');
-const beers = mongo.model('breweries', beerSchema, 'breweries');
+const beers = mongo.model('beers', beerSchema, 'beers');
 
 //saves user info to db
 app.post("/api/SignUp", function(req, res) {
@@ -99,8 +102,8 @@ app.post("/api/login", function(req, res) {
 
 //retrieve beer
 app.get("/api/getBeer", function(req, res) {
-    const dt = "02/21/21";
-    beers.find({ date: dt }, function(err, result) {
+    const d = moment().format('MM/DD/YY');
+    beers.find({ date: d }, function(err, result) {
         console.log(result);
         if (err) {
             res.send(err);
@@ -152,6 +155,7 @@ app.post("/api/deleteUser", function(req, res) {
     });
 })
 
+
 app.get("/api/getUser", function(req, res) {
     model.find({}, function(err, data) {
         if (err) {
@@ -164,6 +168,5 @@ app.get("/api/getUser", function(req, res) {
 
 
 app.listen(8080, function() {
-
     console.log('Example app listening on port 8080!')
 })

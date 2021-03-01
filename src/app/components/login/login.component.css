@@ -4,8 +4,8 @@
     margin: 100px auto;
     padding: 50px 20px;
     align-content: center;
-    background-color: whitesmoke;
-    /*margin: -70px 0 0 -170px;*/
+    background-color: rgba(245, 245, 245, .7);
+    border-radius: 5px;
 }
 
 .signin_action {
@@ -30,6 +30,10 @@ button {
     box-shadow: none;
 }
 
+h1 {
+    text-align: center;
+}
+
 button:hover {
     opacity: 80%;
     cursor: pointer;
@@ -50,8 +54,13 @@ input {
     float: right;
 }
 
-.background {
+body {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-image: url('../../../brewery background.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
 }

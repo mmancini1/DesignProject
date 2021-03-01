@@ -55,6 +55,19 @@ export class CommonService {
     }
 
 
+        //create user in db
+    saveUser(user) {
+        return this.http.post('http://localhost:8080/api/saveUser/', user).
+        pipe(
+            map((data: any) => {
+              return data;
+            }), catchError( error => {
+              return throwError( 'Something went wrong!' );
+            })
+         )
+    }
+
+
     deleteUser(id){   
         return this.http.post('http://localhost:8080/api/deleteUser/',{'id': id}).
         pipe(

@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CommonService } from './service';
-import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
@@ -17,6 +16,9 @@ import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { BeerListComponent } from './components/beer-list/beer-list.component';
+import { NotifyRequestComponent } from './components/notify-request/notify-request.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { FormGroup, FormControl, FormsModule, FormBuilder, ReactiveFormsModule } from '@angular/forms';  
 
 
 @NgModule({
@@ -25,13 +27,16 @@ import { BeerListComponent } from './components/beer-list/beer-list.component';
     LoginComponent,
     HomeComponent,
     SignupComponent,
-    BeerListComponent
+    BeerListComponent,
+    NotifyRequestComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule,
+    FormsModule, 
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     MatTableModule,
     MatFormFieldModule,
