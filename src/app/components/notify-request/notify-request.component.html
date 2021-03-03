@@ -1,1 +1,29 @@
-<p>notify-request works!</p>
+<div class="outer-container">
+    <div class="inner-container">
+        <mat-nav-list>
+            <p>Notify me anytime
+                <select name="breweryList" [(ngModel)]="breweryOption" (change)="updateSelect()">
+                        <option *ngFor="let brew of breweryList">{{brew}}</option>
+                    </select> releases
+                <select matNativeControl>
+                    <option value="any">Any Beer or Style</option>
+                    
+                    <optgroup label="Style">
+                        <option *ngFor="let style of beerStyles" value="style.id">{{style}}</option>
+                    </optgroup>
+
+                    <optgroup label="Beers">
+                        <option *ngFor="let beer of beerList" value="beer.id">{{beer.name}}</option>
+                    </optgroup>
+                </select>
+            </p>
+        </mat-nav-list>
+        <button>Add!</button>
+    </div>
+    <div class="notifications">
+        <p>My Notifications</p>
+        <mat-list role="list">
+            <mat-list-item *ngFor="let n of notifications" role="listitem">Notify me anytime {{n[0]}} releases {{n[1]}} <button>delete</button></mat-list-item>
+        </mat-list>
+    </div>
+</div>

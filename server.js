@@ -4,14 +4,13 @@ const bodyParser = require('body-parser');
 const mongo = require("mongoose");
 const moment = require('moment');
 const bcrypt = require("bcrypt");
+const nodemailer = require('nodemailer');
 const salt = 10;
 
 
 const db = mongo.connect("mongodb://localhost:27017/designProject", function(err, response) {
     if (err) { console.log(err); } else { console.log('Connected to ' + db, ' + ', response); }
 });
-
-
 
 const app = express()
 app.use(bodyParser());
@@ -28,17 +27,10 @@ app.use(function(req, res, next) {
 
 const Schema = mongo.Schema;
 
-const UsersSchema = new Schema({
-    firstName: { type: String },
-    lastName: { type: String },
+const NotifySchema = new Schema({
     email: { type: String },
-    phoneNo: { type: String },
-    addr: { type: String },
-    city: { type: String },
-    state: { type: String },
-    zip: { type: String },
-}, { versionKey: false });
-
+    notifications: { type: Array },
+});
 
 const beerSchema = new Schema({
     name: { type: String },
@@ -52,7 +44,6 @@ const beerSchema = new Schema({
     previousDate: { type: Array },
 }, { versionKey: false });
 
-
 const SignUpSchema = new Schema({
     name: { type: String },
     email: { type: String },
@@ -61,12 +52,14 @@ const SignUpSchema = new Schema({
     state: { type: String },
     zip: { type: String },
     pass: { type: String },
+    notifications: { type: Array },
 }, { versionKey: false });
 
-//schema /db
-const model = mongo.model('users', UsersSchema, 'users');
+//schema
 const users = mongo.model('user', SignUpSchema, 'user');
 const beers = mongo.model('beers', beerSchema, 'beers');
+// const notifications = mongo.model('user', NotifySchema, 'user');
+
 
 //saves user info to db
 app.post("/api/SignUp", function(req, res) {
@@ -83,6 +76,20 @@ app.post("/api/SignUp", function(req, res) {
         });
     });
 });
+
+
+//notifications
+app.post("/api/notifications", function(req, res) {
+    const projection = { email: 1 };
+    users.find({ email: req.body.email }, { email: 1, notifications: 1 }, function(err, result) {
+        if (err) {
+            throw err
+        } else {
+            res.send(result);
+        }
+    });
+});
+
 
 //verify user
 app.post("/api/login", function(req, res) {
@@ -104,7 +111,6 @@ app.post("/api/login", function(req, res) {
 app.get("/api/getBeer", function(req, res) {
     const d = moment().format('MM/DD/YY');
     beers.find({ date: d }, function(err, result) {
-        console.log(result);
         if (err) {
             res.send(err);
         } else {
@@ -165,6 +171,36 @@ app.get("/api/getUser", function(req, res) {
         }
     });
 })
+
+
+// var transporter = nodemailer.createTransport({
+//     service: 'gmail',
+//     auth: {
+//         user: 'beerfinder123@gmail.com',
+//         pass: 'beerificationwebsite'
+//     }
+// });
+
+// var mailOptions = {
+//     from: 'BEERIFICATION <beerfinder123@gmail.com>',
+//     to: 'footballmaniac0788@yahoo.com',
+//     subject: "we've got beer for you!",
+//     text: 'Sup Bro!\n\nCheck out this beer!'
+// };
+
+// transporter.sendMail(mailOptions, function(error, info) {
+//     if (error) {
+//         console.log(error);
+//     } else {
+//         console.log('Email sent: ' + info.response);
+//     }
+// });
+
+
+
+
+
+
 
 
 app.listen(8080, function() {

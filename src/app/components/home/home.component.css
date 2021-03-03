@@ -1,35 +1,29 @@
-table {
-    width: 100%;
-}
-
-.example-container {
-    display: flex;
-    flex-direction: column;
-    min-width: 300px;
-}
-
-.example-header {
-    min-height: 64px;
-    padding: 8px 24px 0;
-}
-
-.mat-form-field {
-    font-size: 14px;
-    width: 20%;
-    margin: 30px;
-}
-
-.mat-table {
-    overflow: auto;
-    max-height: 500px;
-}
-
-.form-cart {
-    margin: 10%;
-}
-
-.btn-primary {
-    background-color: blue;
-    color: white;
-    margin-left: 90%;
-}
+    mat-nav-list.list-horizontal {
+        display: flex;
+    }
+    
+    .mat-list-item {
+        height: auto;
+        width: auto;
+    }
+    
+    .mat-toolbar-row,
+    .mat-toolbar-single-row {
+        height: unset !important;
+    }
+    
+    .mat-list-item .mat-list-item-content {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+    
+    body {
+        background-image: url('../../../brewery background.jpg');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+    
+    button {
+        background-color: salmon;
+    }

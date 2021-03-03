@@ -1,6 +1,6 @@
-<div class="background">
+<body>
     <div class="signup_container">
-        <h1>Sign Up</h1>
+        <h1>Create a New Account</h1>
         <form #newUser="ngForm" (ngSubmit)="onSave(newUser)">
 
             <input name="name" [(ngModel)]="name" placeholder="Name" required>
@@ -19,8 +19,7 @@
 
             <input name="conPass" type="password" [(ngModel)]="conPass" placeholder="Confirm Password" autocomplete="new-password" required>
 
-
             <button>Sign Up</button>
         </form>
     </div>
-</div>
+</body>

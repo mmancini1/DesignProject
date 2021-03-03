@@ -1,0 +1,12 @@
+.outer-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inner-container,
+.notifications {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

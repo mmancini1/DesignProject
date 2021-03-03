@@ -28,28 +28,24 @@ export class LoginComponent implements OnInit {
   get f() { return this.registerForm.controls; }
 
   onSubmit(){  
+    
     this.submitted = true;
-    console.log(this.registerForm.value);
+    console.log(Validators.email);
             // stop here if form is invalid
         if (this.registerForm.invalid) {
             return;
         }
-    console.log(); 
-
-  //    this.newService.login(user.value)  
-  //    .subscribe(data => {  
-  //      if(data){
-  //        if(data){
-  //          console.log('yea boy');
-  //        }else{
-  //          console.log('nah');
-  //        }
-  //        //need to redirect to /home
-  //      }else{
-
-  //      }
-  //    }, error => this.errorMessage = error )  
-    this.route.navigate(['/beerlist']);
+    this.newService.login(this.registerForm.value)
+      .subscribe(data => {  
+        console.log(data);
+        if(data){
+          if(data){
+            this.route.navigate(['/home']);
+          }else{
+            //throw invalid credentials
+          }
+        }
+      }); 
   }
 
 
