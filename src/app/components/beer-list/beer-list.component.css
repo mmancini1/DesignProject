@@ -30,6 +30,7 @@
     
     .card-container {
         margin: 0 auto;
+        width: 800px;
     }
     
     .title {
@@ -48,6 +49,7 @@
         margin-bottom: 50px;
         padding: 20px 20px;
         cursor: pointer;
+        background-color: rgba(245, 245, 245, 1);
     }
     
     .mat-card-image {
@@ -93,23 +95,27 @@
         color: gold;
     }
     
-    body {
-        background-image: url('../../../brewery background.jpg');
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-size: cover;
-    }
-    
     button {
-        background-color: salmon;
+        background-color: black;
+        color: wheat;
     }
     
     .dropbtn {
-        background-color: #4CAF50;
-        color: white;
+        background-color: black;
+        color: wheat;
         padding: 16px;
         font-size: 16px;
         border: none;
+    }
+    
+    #leftBTN {
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
+    }
+    
+    #rightBTN {
+        border-top-right-radius: 15px;
+        border-bottom-right-radius: 15px;
     }
     
     .dropdown {
@@ -142,5 +148,9 @@
     }
     
     .dropdown:hover .dropbtn {
-        background-color: #3e8e41;
+        opacity: 80%;
+    }
+    
+    body {
+        padding-top: 50px;
     }

@@ -1,15 +1,15 @@
 <body>
     <div class="sub-menu">
         <div class="dropdown">
-            <button class="dropbtn">Brewery</button>
+            <button id="leftBTN" class="dropbtn">Brewery</button>
             <div class="dropdown-content">
-                <li *ngFor='let brewery of breweryList'>{{brewery}}</li>
+                <button *ngFor='let brewery of breweryList'>{{brewery}}</button>
             </div>
         </div>
         <div class="dropdown">
-            <button class="dropbtn">Style</button>
+            <button id="rightBTN" class="dropbtn">Style</button>
             <div class="dropdown-content">
-                <li *ngFor='let style of beerStyles'>{{style}}</li>
+                <button *ngFor='let style of beerStyles'>{{style}}</button>
             </div>
         </div>
     </div>
@@ -23,6 +23,9 @@
                 <mat-card-content class="home-card-content">
                     <img mat-card-image src="../../../brewery background.jpg">
                     <div class="content-container">
+                        <div class="title">
+                            <b>{{beer.name}} </b>
+                        </div>
                         <div class="rating">
                             <ng-template #t let-fill="fill">
                                 <span class="sr-only" hidden="true"></span>
@@ -34,10 +37,7 @@
 
                             ({{beer.rating}})
                         </div>
-                        <div class="title">
-                            <b>{{beer.name}} </b>
-                        </div>
-                        <div><b>{{beer.brewery}}</b>
+                        <div><b>{{beer.brewery}} Brewery</b>
                         </div>
                         <div><b>Style:</b> {{beer.style}} <b>ABV:</b> {{beer.abv}}</div>
                     </div>

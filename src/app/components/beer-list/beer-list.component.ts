@@ -41,7 +41,6 @@ export class BeerListComponent implements OnInit {
           this.beerStyles.push(this.beers[i].style);
         }
       }
-      console.log(this.breweryList);
       let x = this.beers.sort((a, b) => (a.brewery > b.brewery) ? 1 : -1);
     }   
     , error => this.errorMessage = error )  

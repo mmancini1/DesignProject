@@ -1,12 +1,35 @@
-.outer-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .inner-container,
 .notifications {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.notifySpace {
+    margin-top: 50px;
+}
+
+.bgColor {
+    background-color: rgba(245, 245, 245, .7);
+    width: 600px;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+#delBTN {
+    float: right;
+}
+
+h1 {
+    color: wheat;
+    margin-left: 200px;
+}
+
+body {
+    padding-top: 50px;
+}
+
+mat-list-item:hover {
+    background-color: rgba(255, 255, 255, .7);
+    border-radius: 5px;
 }

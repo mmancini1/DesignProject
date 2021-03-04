@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../service';
 import { FormGroup,FormControl,Validators,FormsModule, FormArray, FormBuilder } from '@angular/forms';  
 import { MatTableDataSource } from '@angular/material/table';
+import { UserDetailsService } from '../../service/user-details/user-details.service';
 
 @Component({
   selector: 'app-notify-request',
@@ -14,11 +15,13 @@ export class NotifyRequestComponent implements OnInit {
   breweryList: any=["Any Brewery"];
   beerList: any =[];
   breweryOption: string;
+  beerStyle: string;
   beerStyles: any = [];
   notifications: any =[];
 
   constructor(private newService :CommonService,
-              private fb: FormBuilder) { }
+              private fb: FormBuilder,
+              private userDetails: UserDetailsService) { }
 
   ngOnInit(): void {
     this.getBeer();
@@ -51,15 +54,34 @@ export class NotifyRequestComponent implements OnInit {
 
 
   updateNotifications = function() {    
-    this.newService.notify({email: "test@yahoo.com"})  
+    this.newService.notify({email: this.userDetails.email})  
     .subscribe(data =>  {  
-      console.log(data);
-      console.log(data[0].notifications);
       this.notifications = data[0].notifications;
-    }   
+    } 
     , error => this.errorMessage = error )  
   }
 
+  addNotification =function(){
 
+    //do error checking here
+
+
+    //also need to check if it already exists - if it does, then dont add it.
+
+
+    //rest of the code
+    this.newService.addNotification({email: this.userDetails.email,brewery: this.breweryOption,style: this.beerStyle})
+      .subscribe(data =>  {  
+        this.updateNotifications();
+      });
+  }
+
+    deleteNotification = function(brewery,style) {    
+    this.newService.deleteNotification({email: this.userDetails.email,brewery: brewery, style: style})  
+    .subscribe(data =>  { 
+      this.updateNotifications();
+    } 
+    , error => this.errorMessage = error )  
+  }
 
 }

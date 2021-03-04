@@ -17,13 +17,12 @@
         padding-right: 0px !important;
     }
     
-    body {
-        background-image: url('../../../brewery background.jpg');
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-size: cover;
+    .mat-toolbar {
+        background-color: black;
+        position: fixed;
+        z-index: 1000
     }
     
     button {
-        background-color: salmon;
+        color: wheat;
     }

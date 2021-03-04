@@ -1,21 +1,21 @@
-<mat-toolbar color="secondary">
+<mat-toolbar>
     <mat-nav-list class="list-horizontal">
         <mat-list-item>
             <button mat-menu-item>Home</button>
         </mat-list-item>
+
         <mat-list-item>
-            <button mat-menu-item (click)="changeRoute('beerlist')">Discover Beer!</button>
+            <button mat-menu-item (click)="changeRoute('beerlist')">Discover Beer</button>
         </mat-list-item>
-        <mat-list-item>
-            <button mat-menu-item>Home</button>
-        </mat-list-item>
+
         <mat-list-item>
             <button mat-menu-item (click)="changeRoute('notify')">My Notifications</button>
         </mat-list-item>
 
         <mat-list-item>
-            <button mat-menu-item [matMenuTriggerFor]="billsmenu">Example</button>
+            <button mat-menu-item [matMenuTriggerFor]="billsmenu"></button>
         </mat-list-item>
+
         <mat-menu #billsmenu="matMenu" [overlapTrigger]="false">
             <button mat-menu-item>
                     <span>Bill Management</span>

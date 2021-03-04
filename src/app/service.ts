@@ -56,6 +56,26 @@ export class CommonService {
          )
     }
 
+    addNotification(info) {
+        return this.http.post('http://localhost:8080/api/addNotification/', info).pipe(
+            map((data: any) => {
+              return data;
+            }), catchError( error => {
+              return throwError( 'error' );
+            })
+         )
+    }
+
+    deleteNotification(info) {
+        return this.http.post('http://localhost:8080/api/deleteNotification/', info).pipe(
+            map((data: any) => {
+              return data;
+            }), catchError( error => {
+              return throwError( 'error' );
+            })
+         )
+    }
+
     GetUser() {
         return this.http.get('http://localhost:8080/api/getUser/').pipe(
             map((data: any) => {

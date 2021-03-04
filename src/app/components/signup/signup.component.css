@@ -1,6 +1,6 @@
 .signup_container {
     width: 300px;
-    height: 500px;
+    height: 550px;
     margin: 100px auto;
     padding: 10px 20px;
     align-content: center;
@@ -48,7 +48,7 @@ input {
     padding: 8.85px 13px;
     border-radius: 5px;
     box-shadow: none;
-    width: 90.5%;
+    width: 100%;
     border-width: 1px;
     border-color: gray;
     border-style: solid;
@@ -58,15 +58,4 @@ input {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: url('../../../brewery background.jpg');
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center;
-    background-size: cover;
 }
