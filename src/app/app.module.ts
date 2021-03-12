@@ -23,6 +23,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatListModule} from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { AuthGuardService } from './service/auth-guard.service';
+import { AuthService } from './service/auth.service';
 
 
 @NgModule({
@@ -54,7 +56,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatToolbarModule,
     NgbModule,
   ],
-  providers: [CommonService],
+  providers: [CommonService, AuthGuardService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

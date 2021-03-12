@@ -3,6 +3,7 @@ import { CommonService } from '../../service';
 import { FormGroup,FormControl,Validators,FormsModule, FormArray, FormBuilder } from '@angular/forms';  
 import { MatTableDataSource } from '@angular/material/table';
 import { UserDetailsService } from '../../service/user-details/user-details.service';
+import { BeerListService } from '../../service/beerList/beer-list.service';
 
 @Component({
   selector: 'app-notify-request',
@@ -11,52 +12,40 @@ import { UserDetailsService } from '../../service/user-details/user-details.serv
 })
 export class NotifyRequestComponent implements OnInit {
 
-  beers: any;
-  breweryList: any=["Any Brewery"];
-  beerList: any =[];
+
   breweryOption: string;
   beerStyle: string;
-  beerStyles: any = [];
   notifications: any =[];
+  hasData: number;
+  style: string;
+  email: string;
+
+
 
   constructor(private newService :CommonService,
               private fb: FormBuilder,
-              private userDetails: UserDetailsService) { }
+              private userDetails: UserDetailsService,
+              public beerListService: BeerListService) { }
 
   ngOnInit(): void {
-    this.getBeer();
+    this.email = sessionStorage.getItem('email');
     this.updateNotifications();
   }
 
   updateSelect(){
-      this.beerList = this.beers.filter(beer => beer.brewery === this.breweryOption);
-
-      console.log(this.beerList);
+      this.beerListService.beers = this.beerListService.beerList.filter(beer => beer.brewery === this.breweryOption);
   }
 
-  getBeer = function() {    
-    this.newService.getBeer()  
-    .subscribe(data =>  {  
-      this.beers=data.result;
-      for(let i=0;i<this.beers.length;i++){
-        if(!this.breweryList.includes(this.beers[i].brewery)){
-          this.breweryList.push(this.beers[i].brewery);
-        }
-        if(!this.beerStyles.includes(this.beers[i].style)){
-          this.beerStyles.push(this.beers[i].style);
-        }
+  updateNotifications = function() {
+    this.newService.notify({email: this.email})  
+    .subscribe(data =>  {
+      if(data.length>0){
+        this.notifications = data[0].notifications;
+        if(this.notifications.length>0)
+          this.hasData=this.notifications.length;
+      }else{
+        this.hasData=0;
       }
-      //this doesnt work
-      let x = this.beers.sort((a, b) => (a.brewery > b.brewery) ? 1 : -1);
-    }   
-    , error => this.errorMessage = error )  
-  }
-
-
-  updateNotifications = function() {    
-    this.newService.notify({email: this.userDetails.email})  
-    .subscribe(data =>  {  
-      this.notifications = data[0].notifications;
     } 
     , error => this.errorMessage = error )  
   }
@@ -64,20 +53,18 @@ export class NotifyRequestComponent implements OnInit {
   addNotification =function(){
 
     //do error checking here
-
-
     //also need to check if it already exists - if it does, then dont add it.
 
-
     //rest of the code
-    this.newService.addNotification({email: this.userDetails.email,brewery: this.breweryOption,style: this.beerStyle})
-      .subscribe(data =>  {  
+    console.log(this.beerStyle);
+    this.newService.addNotification({email: this.email, brewery: this.breweryOption, style: this.beerStyle})
+      .subscribe(data =>  {
         this.updateNotifications();
       });
   }
 
-    deleteNotification = function(brewery,style) {    
-    this.newService.deleteNotification({email: this.userDetails.email,brewery: brewery, style: style})  
+  deleteNotification = function(brewery,style) {    
+    this.newService.deleteNotification({email: this.email,brewery: brewery, style: style})  
     .subscribe(data =>  { 
       this.updateNotifications();
     } 

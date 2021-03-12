@@ -5,13 +5,14 @@ import { Injectable } from '@angular/core';
 })
 export class UserDetailsService {
 
-  user: String;
-  email: String;
+  user: string;
+  email: string;
   constructor() { }
 
   populateUser(info){
-    this.user=info.user;
+    this.user=info.name;
     this.email=info.email;
-    console.log(this.email);
+    sessionStorage.setItem('email', this.email);
+    sessionStorage.setItem('user', this.user);
   }
 }

@@ -12,34 +12,33 @@
                 <mat-nav-list>
                     <p>Notify me anytime
                         <select name="breweryList" [(ngModel)]="breweryOption" (change)="updateSelect()">
-                        <option *ngFor="let brew of breweryList">{{brew}}</option>
-                    </select> releases
+                            <option *ngFor="let brew of this.beerListService.breweryList">{{brew}}</option>
+                        </select> releases
 
                         <select matNativeControl [(ngModel)]="beerStyle">
-                    <option value="Any Beer or Style">Any Beer or Style</option>
-                    
-                    <optgroup label="Style">
-                        <option *ngFor="let style of beerStyles" value="{{style}}">{{style}}</option>
-                    </optgroup>
+                            <option value="Any Beer or Style">Any Beer or Style</option>
+                            
+                            <optgroup label="Style">
+                                <option *ngFor="let style of this.beerListService.beerStyles"  value="{{style}}">{{style}}</option>
+                            </optgroup>
 
-                    <optgroup label="Beers">
-                        <option *ngFor="let beer of beerList" value="{{beer.name}}">{{beer.name}}</option>
-                    </optgroup>
-                </select>
+                            <optgroup label="Beers">
+                                <option *ngFor="let beer of this.beerListService.beers"  value="{{beer.name}}">{{beer.name}}</option>
+                            </optgroup>
+                        </select>
+                        <button id="addBTN" (click)="addNotification()">Add!</button>
                     </p>
                 </mat-nav-list>
-                <button (click)="addNotification()">Add!</button>
             </div>
         </div>
         <div class="notifySpace">
             <h1><b>Existing Notifications</b></h1>
         </div>
-        <div class="notifications">
+        <div class="notifications" *ngIf="hasData>0">
             <div class="bgColor">
                 <mat-list role="list">
                     <mat-list-item *ngFor="let n of notifications" role="listitem">
-                        <p>Notify me anytime {{n.brewery}} releases {{n.style}}</p>
-                        <button id="delBTN" (click)="deleteNotification(n.brewery,n.style)">Delete</button>
+                        <p>Notify me anytime <b><u>{{n.brewery}}</u></b> releases <b><u>{{n.style}}</u></b> <button id="delBTN" (click)="deleteNotification(n.brewery,n.style)"><i class="material-icons">delete_forever</i></button></p>
                     </mat-list-item>
                 </mat-list>
             </div>
