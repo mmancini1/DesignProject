@@ -36,7 +36,6 @@ export class BeerListComponent implements OnInit {
     }else{
       this.beerListService.beers=this.beerListService.beerList.filter((b)=>(b.brewery==type));
     }
-
     this.beerListService.beers = this.beerListService.beers.sort((a, b) => (a.name > b.name) ? 1 : -1);
   }
 
@@ -65,7 +64,6 @@ export class BeerListComponent implements OnInit {
     }else if(type=='4.5+ Star'){
       this.beerListService.beers=this.beerListService.beerList.filter((b)=>(b.rating>=4.5));
     }
-
     this.beerListService.beers = this.beerListService.beers.sort((a, b) => (a.rating > b.rating) ? 1 : -1);
   }
 
@@ -78,7 +76,6 @@ export class BeerListComponent implements OnInit {
       this.collapsed = i;
     }
   }
-
 }
 
 export interface Beer {

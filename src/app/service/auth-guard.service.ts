@@ -14,13 +14,11 @@ export class AuthGuardService implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): true|UrlTree {
     const url: string = state.url;
-    console.log(url);
     return this.checkLogin(url);
   }
 
   checkLogin(url: string): true|UrlTree {
     let login = sessionStorage.getItem('login');
-
     if (this.authService.isLoggedIn || login=='true') { return true; }
 
     // Store the attempted URL for redirecting
