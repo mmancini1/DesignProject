@@ -4,21 +4,21 @@
         <div class="dropdown">
             <button id="leftBTN" class="dropbtn">Brewery</button>
             <div class="dropdown-content">
-                <button *ngFor='let brewery of this.beerListService.breweryList' (click)="sortByBrew(brewery)">{{brewery}}</button>
+                <a *ngFor='let brewery of this.beerListService.breweryList' (click)="sortByBrew(brewery)">{{brewery}}</a>
             </div>
         </div>
 
         <div class="dropdown">
             <button id="midBTN" class="dropbtn">Style</button>
             <div class="dropdown-content">
-                <button *ngFor='let style of this.beerListService.beerStyles' (click)="sortByStyle(style)">{{style}}</button>
+                <a *ngFor='let style of this.beerListService.beerStyles' (click)="sortByStyle(style)">{{style}}</a>
             </div>
         </div>
 
         <div class="dropdown">
             <button id="rightBTN" class="dropbtn">Rating</button>
             <div class="dropdown-content">
-                <button *ngFor='let rating of beerRating' (click)="sortByRating(rating)">{{rating}}</button>
+                <a *ngFor='let rating of beerRating' (click)="sortByRating(rating)">{{rating}}</a>
             </div>
         </div>
     </div>

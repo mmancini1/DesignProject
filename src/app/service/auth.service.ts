@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { tap, delay } from 'rxjs/operators';
+
+
 @Injectable()
 export class AuthService {
 
@@ -11,11 +13,13 @@ export class AuthService {
   // store the URL so we can redirect after logging in
   redirectUrl: string;
 
-  login(): Observable<boolean> {
+  login(): Observable<string> {
     sessionStorage.setItem('login', 'true');
-    return of(true).pipe(
-      tap(val => this.isLoggedIn = true)
-    );
+    this.isLoggedIn=true;
+    return of('/home');
+    // return of(true).pipe(
+    //   tap(val => this.isLoggedIn = true)
+    // );
   }
 
   logout(): void {

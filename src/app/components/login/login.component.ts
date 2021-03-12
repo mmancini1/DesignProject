@@ -35,22 +35,16 @@ export class LoginComponent implements OnInit {
 
   onSubmit(){
     this.submitted = true;
-            // stop here if form is invalid
-        if (this.registerForm.invalid) {
-            return;
-        }
-    console.log(this.registerForm.value);
+    // stop here if form is invalid
+    if (this.registerForm.invalid) {
+        return;
+    }
     this.newService.login(this.registerForm.value)
       .subscribe(data => {  
           if(data){
-            this.authService.login().subscribe(() => {
+            this.authService.login().subscribe(redirectUrl => {
               if (this.authService.isLoggedIn) {
                 sessionStorage.setItem('email',this.registerForm.value.email);
-                console.log(this.registerForm.value.email);
-                // Usually you would use the redirect URL from the auth service.
-                // However to keep the example simple, we will always redirect to `/admin`.
-                const redirectUrl = '/home';
-
                 // Redirect the user
                 this.route.navigate([redirectUrl]);
               }
