@@ -1,11 +1,11 @@
 .signup_container {
     width: 300px;
-    height: 500px;
+    height: 550px;
     margin: 100px auto;
     padding: 10px 20px;
     align-content: center;
-    background-color: whitesmoke;
-    /*margin: -70px 0 0 -170px;*/
+    background-color: rgba(245, 245, 245, .7);
+    border-radius: 5px;
 }
 
 .signup_action {
@@ -13,6 +13,10 @@
     padding: 8.85px 13px;
     border-radius: 5px;
     box-shadow: none;
+}
+
+input {
+    margin-bottom: 10px;
 }
 
 .signup_form {
@@ -44,7 +48,7 @@ input {
     padding: 8.85px 13px;
     border-radius: 5px;
     box-shadow: none;
-    width: 90.5%;
+    width: 100%;
     border-width: 1px;
     border-color: gray;
     border-style: solid;

@@ -4,14 +4,13 @@ const bodyParser = require('body-parser');
 const mongo = require("mongoose");
 const moment = require('moment');
 const bcrypt = require("bcrypt");
+const nodemailer = require('nodemailer');
 const salt = 10;
 
 
 const db = mongo.connect("mongodb://localhost:27017/designProject", function(err, response) {
-    if (err) { console.log(err); } else { console.log('Connected to ' + db, ' + ', response); }
+    if (err) { console.log(err); } else { console.log('Connected to DB'); }
 });
-
-
 
 const app = express()
 app.use(bodyParser());
@@ -28,18 +27,6 @@ app.use(function(req, res, next) {
 
 const Schema = mongo.Schema;
 
-const UsersSchema = new Schema({
-    firstName: { type: String },
-    lastName: { type: String },
-    email: { type: String },
-    phoneNo: { type: String },
-    addr: { type: String },
-    city: { type: String },
-    state: { type: String },
-    zip: { type: String },
-}, { versionKey: false });
-
-
 const beerSchema = new Schema({
     name: { type: String },
     price: { type: Number },
@@ -52,7 +39,6 @@ const beerSchema = new Schema({
     previousDate: { type: Array },
 }, { versionKey: false });
 
-
 const SignUpSchema = new Schema({
     name: { type: String },
     email: { type: String },
@@ -61,12 +47,13 @@ const SignUpSchema = new Schema({
     state: { type: String },
     zip: { type: String },
     pass: { type: String },
+    notifications: { type: Array },
 }, { versionKey: false });
 
-//schema /db
-const model = mongo.model('users', UsersSchema, 'users');
+//schema
 const users = mongo.model('user', SignUpSchema, 'user');
 const beers = mongo.model('beers', beerSchema, 'beers');
+
 
 //saves user info to db
 app.post("/api/SignUp", function(req, res) {
@@ -84,16 +71,54 @@ app.post("/api/SignUp", function(req, res) {
     });
 });
 
+
+//notifications
+app.post("/api/notifications", function(req, res) {
+    const projection = { email: 1 };
+    users.find({ email: req.body.email }, { email: 1, notifications: 1 }, function(err, result) {
+        if (err) {
+            throw err
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+//notifications
+app.post("/api/deleteNotification", function(req, res) {
+    users.update({ email: req.body.email }, { $pull: { notifications: { brewery: req.body.brewery, style: req.body.style } } }, function(err, result) {
+        if (err) {
+            throw err
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+
+app.post("/api/addNotification", function(req, res) {
+    users.updateOne({ email: req.body.email }, { '$push': { notifications: { brewery: req.body.brewery, style: req.body.style } } }, function(err, result) {
+        if (err) {
+            throw err
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+
 //verify user
 app.post("/api/login", function(req, res) {
     users.findOne({ email: req.body.email }, function(err, result) {
         bcrypt.compare(req.body.pass, result.pass, (err, match) => {
+            console.log(result);
+            console.log(match);
             if (err) {
                 throw err
             } else if (!match) {
-                res.send(false);
+                res.send({ login: false });
             } else {
-                res.send(true);
+                res.send({ login: true, name: result.name, email: result.email });
             }
         });
     });
@@ -104,7 +129,6 @@ app.post("/api/login", function(req, res) {
 app.get("/api/getBeer", function(req, res) {
     const d = moment().format('MM/DD/YY');
     beers.find({ date: d }, function(err, result) {
-        console.log(result);
         if (err) {
             res.send(err);
         } else {
@@ -165,6 +189,62 @@ app.get("/api/getUser", function(req, res) {
         }
     });
 })
+
+
+// var transporter = nodemailer.createTransport({
+//     service: 'gmail',
+//     auth: {
+//         user: 'beerfinder123@gmail.com',
+//         pass: 'beerificationwebsite'
+//     }
+// });
+
+// var mailOptions = {
+//     from: 'BEERIFICATION <beerfinder123@gmail.com>',
+//     to: 'footballmaniac0788@yahoo.com',
+//     subject: "we've got beer for you!",
+//     text: 'Sup Bro!\n\nCheck out this beer!'
+// };
+
+// transporter.sendMail(mailOptions, function(error, info) {
+//     if (error) {
+//         console.log(error);
+//     } else {
+//         console.log('Email sent: ' + info.response);
+//     }
+// });
+
+
+
+
+function test() {
+
+    //this is a test for when I automate this piece
+    const projection = { email: 1 };
+    const email = "test@test.com";
+    // const d = moment().format('MM/DD/YY');
+    const d = moment().format('03/03/21');
+    users.find({ email: email }, { email: 1, notifications: 1 }, function(err, result) {
+        if (err) {
+            throw err;
+        } else {
+            beers.find({ date: d }, function(err, beers) {
+                if (err) {
+                    throw err;
+                } else {
+                    console.log(beers);
+                }
+            });
+            for (let i = 0; i < result[0].notifications.length; i++) {
+                console.log(result[0].notifications[i]);
+            }
+
+        }
+    });
+}
+
+test();
+
 
 
 app.listen(8080, function() {

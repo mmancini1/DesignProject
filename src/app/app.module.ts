@@ -18,7 +18,11 @@ import { SignupComponent } from './components/signup/signup.component';
 import { BeerListComponent } from './components/beer-list/beer-list.component';
 import { NotifyRequestComponent } from './components/notify-request/notify-request.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-import { FormGroup, FormControl, FormsModule, FormBuilder, ReactiveFormsModule } from '@angular/forms';  
+import { FormGroup, FormControl, FormsModule, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';  
+import {MatMenuModule} from '@angular/material/menu';
+import {MatListModule} from '@angular/material/list';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 
 @NgModule({
@@ -45,6 +49,10 @@ import { FormGroup, FormControl, FormsModule, FormBuilder, ReactiveFormsModule }
     MatInputModule,
     MatCardModule,
     MatButtonModule,
+    MatMenuModule,
+    MatListModule,
+    MatToolbarModule,
+    NgbModule,
   ],
   providers: [CommonService],
   bootstrap: [AppComponent]

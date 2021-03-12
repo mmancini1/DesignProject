@@ -1,47 +1,20 @@
-<!--<body>
-    <div class="signin_container">
-        <div class="content">
-            <h1>BREWIFY ME</h1>
-            <form class="signin_form" #login="ngForm" (ngSubmit)="onSubmit(login)">
-                <span>
-                    <input class="signin_action" placeholder="Email Address" [(ngModel)]="email" name="email" required>
-                <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
-                    <div *ngIf="email.errors.required">
-                        Name is required.
-                    </div>
-                </div>
-                </span>
-                <div></div>
-                <span>
-                    <input class="signin_action" type="password" placeholder="Password" [(ngModel)]="pass" name="pass" required>
-                </span>
-                <button class="signin_action"> Sign In</button>
-            </form>
-            <a class="signin_signup" name="forgotPass" routerLink="/resetpassword">Forgot Password?</a>
-            <a class="signin_signup" name="signup" id="signup" routerLink="/signup">Sign Up</a>
-        </div>
-    </div>
-</body>-->
-
-
 <body>
     <div class="signin_container">
         <div class="content">
-            <h1>BREWIFY ME</h1>
+            <h1>BEERIFICATION</h1>
             <form class="signin_form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-                <span>
+                <div class="form">
                     <input type="text" formControlName="email" class="signin_action" placeholder="Email Address" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
                     <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                         <div *ngIf="f.email.errors.required">Email is required</div>
                     </div>
-                </span>
-                <div></div>
-                <span>
+                </div>
+                <div class="form">
                     <input type="password" formControlName="pass" class="signin_action" placeholder="Password" [ngClass]="{ 'is-invalid': submitted && f.pass.errors }" />
-                        <div *ngIf="submitted && f.pass.errors" class="invalid-feedback">
-                            <div *ngIf="f.pass.errors.required">Password is required</div>
-                        </div>
-                </span>
+                    <div *ngIf="submitted && f.pass.errors" class="invalid-feedback">
+                        <div *ngIf="f.pass.errors.required">Password is required</div>
+                    </div>
+                </div>
                 <button class="signin_action"> Sign In</button>
             </form>
             <a class="signin_signup" name="forgotPass" routerLink="/resetpassword">Forgot Password?</a>

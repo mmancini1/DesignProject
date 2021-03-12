@@ -1,29 +1,53 @@
-<div class="header">
-    <button mat-button>Notify Me!</button>
-    <button mat-button>Notify Me!</button>
-    <button mat-button>Notify Me!</button>
-    <button mat-button>Notify Me!</button>
-</div>
-<div class="background">
-    <div class="card-container">
-        <mat-card class="home-card" *ngFor="let beer of beers; let i = index" (click)="collapse(i)">
-            <mat-card-header>
-                <div mat-card-avatar></div>
-            </mat-card-header>
-            <mat-card-content class="home-card-content">
-                <img mat-card-image src="../../../brewery background.jpg">
-                <div class="content-container">
-                    <div class="title">
-                        <b>{{beer.brewery}} </b>
-                    </div>
-                    <div>{{beer.name}} {{beer.rating}}</div>
-                    <div>Style: {{beer.style}} ABV: {{beer.abv}}</div>
-                </div>
-            </mat-card-content>
-            <p *ngIf="collapsed===i"><b>Description:</b> {{beer.description}}</p>
-            <mat-card-actions>
-                <button mat-button>Notify Me!</button>
-            </mat-card-actions>
-        </mat-card>
+<body>
+    <div class="sub-menu">
+        <div class="dropdown">
+            <button id="leftBTN" class="dropbtn">Brewery</button>
+            <div class="dropdown-content">
+                <button *ngFor='let brewery of breweryList'>{{brewery}}</button>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button id="rightBTN" class="dropbtn">Style</button>
+            <div class="dropdown-content">
+                <button *ngFor='let style of beerStyles'>{{style}}</button>
+            </div>
+        </div>
     </div>
-</div>
+
+    <div class="background">
+        <div class="card-container">
+            <mat-card class="home-card" *ngFor="let beer of beers; let i = index" (click)="collapse(i)">
+                <mat-card-header>
+                    <div mat-card-avatar></div>
+                </mat-card-header>
+                <mat-card-content class="home-card-content">
+                    <img mat-card-image src="../../../brewery background.jpg">
+                    <div class="content-container">
+                        <div class="title">
+                            <b>{{beer.name}} </b>
+                        </div>
+                        <div class="rating">
+                            <ng-template #t let-fill="fill">
+                                <span class="sr-only" hidden="true"></span>
+                                <span class="star" [class.full]="fill === 100">
+                                <span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
+                                </span>
+                            </ng-template>
+                            <ngb-rating rate='{{beer.rating}}' [starTemplate]="t" [readonly]="true" [max]="5"></ngb-rating>
+
+                            ({{beer.rating}})
+                        </div>
+                        <div><b>{{beer.brewery}} Brewery</b>
+                        </div>
+                        <div><b>Style:</b> {{beer.style}} <b>ABV:</b> {{beer.abv}}</div>
+                    </div>
+                </mat-card-content>
+                <p *ngIf="collapsed===i"><b>Description:</b> {{beer.description}}</p>
+                <mat-card-actions>
+                    <button mat-button>Notify Me!</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+
+</body>

@@ -1,6 +1,6 @@
 .signin_container {
     width: 300px;
-    height: 300px;
+    height: 400px;
     margin: 100px auto;
     padding: 50px 20px;
     align-content: center;
@@ -30,6 +30,10 @@ button {
     box-shadow: none;
 }
 
+.form {
+    padding-bottom: 20px;
+}
+
 h1 {
     text-align: center;
 }
@@ -44,7 +48,7 @@ button:active {
 }
 
 input {
-    width: 90.5%;
+    width: 100%;
     border-width: 1px;
     border-color: gray;
     border-style: solid;
@@ -52,15 +56,4 @@ input {
 
 #signup {
     float: right;
-}
-
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: url('../../../brewery background.jpg');
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center;
-    background-size: cover;
 }

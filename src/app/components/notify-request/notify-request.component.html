@@ -1,1 +1,48 @@
-<p>notify-request works!</p>
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+    <div class="outer-container">
+        <div class="notifySpace">
+            <h1><b>Add Notification</b></h1>
+        </div>
+        <div class="inner-container">
+            <div class="bgColor">
+                <mat-nav-list>
+                    <p>Notify me anytime
+                        <select name="breweryList" [(ngModel)]="breweryOption" (change)="updateSelect()">
+                        <option *ngFor="let brew of breweryList">{{brew}}</option>
+                    </select> releases
+
+                        <select matNativeControl [(ngModel)]="beerStyle">
+                    <option value="Any Beer or Style">Any Beer or Style</option>
+                    
+                    <optgroup label="Style">
+                        <option *ngFor="let style of beerStyles" value="{{style}}">{{style}}</option>
+                    </optgroup>
+
+                    <optgroup label="Beers">
+                        <option *ngFor="let beer of beerList" value="{{beer.name}}">{{beer.name}}</option>
+                    </optgroup>
+                </select>
+                    </p>
+                </mat-nav-list>
+                <button (click)="addNotification()">Add!</button>
+            </div>
+        </div>
+        <div class="notifySpace">
+            <h1><b>Existing Notifications</b></h1>
+        </div>
+        <div class="notifications">
+            <div class="bgColor">
+                <mat-list role="list">
+                    <mat-list-item *ngFor="let n of notifications" role="listitem">
+                        <p>Notify me anytime {{n.brewery}} releases {{n.style}}</p>
+                        <button id="delBTN" (click)="deleteNotification(n.brewery,n.style)">Delete</button>
+                    </mat-list-item>
+                </mat-list>
+            </div>
+        </div>
+    </div>
+</body>

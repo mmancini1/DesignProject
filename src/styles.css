@@ -2,6 +2,7 @@
 
 @import "~ag-grid-community/dist/styles/ag-grid.css";
 @import "~ag-grid-community/dist/styles/ag-theme-balham.css";
+@import '~bootstrap/dist/css/bootstrap.min.css';
 html,
 body {
     height: 100%;
@@ -10,4 +11,9 @@ body {
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-image: url('./brewery background.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
 }

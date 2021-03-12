@@ -28,7 +28,7 @@ export class CommonService {
             map((data: any) => {
               return data;
             }), catchError( error => {
-              return throwError( 'Something went wrong!' );
+              return throwError( 'error' );
             })
          )
     }
@@ -44,6 +44,38 @@ export class CommonService {
         )
     }
 
+
+    //get beer data
+    notify(user) {
+        return this.http.post('http://localhost:8080/api/notifications/', user).pipe(
+            map((data: any) => {
+              return data;
+            }), catchError( error => {
+              return throwError( 'error' );
+            })
+         )
+    }
+
+    addNotification(info) {
+        return this.http.post('http://localhost:8080/api/addNotification/', info).pipe(
+            map((data: any) => {
+              return data;
+            }), catchError( error => {
+              return throwError( 'error' );
+            })
+         )
+    }
+
+    deleteNotification(info) {
+        return this.http.post('http://localhost:8080/api/deleteNotification/', info).pipe(
+            map((data: any) => {
+              return data;
+            }), catchError( error => {
+              return throwError( 'error' );
+            })
+         )
+    }
+
     GetUser() {
         return this.http.get('http://localhost:8080/api/getUser/').pipe(
             map((data: any) => {
@@ -54,8 +86,6 @@ export class CommonService {
         )
     }
 
-
-        //create user in db
     saveUser(user) {
         return this.http.post('http://localhost:8080/api/saveUser/', user).
         pipe(

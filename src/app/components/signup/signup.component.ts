@@ -26,12 +26,13 @@ export class SignupComponent implements OnInit {
   }
 
   onSave = function(user) {   
-    console.log(user.Validators);
-    //  this.newService.signUp(user.value)  
-    //  .subscribe(data =>  {  alert(data.data);  
-    //    this.ngOnInit();    
-    //  }   
-    //  , error => this.errorMessage = error )  
+    console.log(user.value);
+    //if field in user.value fails dont send
+     this.newService.signUp(user.value)  
+     .subscribe(data =>  {  alert(data.data);  
+
+     }   
+     , error => this.errorMessage = error )  
     this.route.navigate(['/notify']);
    }
 }
