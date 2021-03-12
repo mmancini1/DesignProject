@@ -7,6 +7,10 @@
         width: auto;
     }
     
+    .mat-menu-content {
+        background-color: black;
+    }
+    
     .mat-toolbar-row,
     .mat-toolbar-single-row {
         height: unset !important;
@@ -25,4 +29,5 @@
     
     button {
         color: wheat;
+        background-color: black;
     }

@@ -58,6 +58,11 @@
         height: 100px;
     }
     
+    mat-card-title {
+        justify-content: center;
+        display: flex;
+    }
+    
     .home-card-content {
         display: flex;
         &>* {

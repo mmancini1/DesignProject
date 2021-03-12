@@ -4,6 +4,7 @@ import {FormGroup,FormControl,Validators,FormsModule, } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { StarRatingComponent } from 'ng-starrating';
 import { Router } from '@angular/router';
+import { BeerListService } from '../../service/beerList/beer-list.service';
 
 @Component({
   selector: 'app-beer-list',
@@ -14,38 +15,59 @@ export class BeerListComponent implements OnInit {
 
 
   beers: any;
+  beerList: any;
   item: any;
-  breweryList: any=["All Breweries"];
-  beerStyles: any = ["All Styles"];
+  beerRating: any = ['All Ratings','1+ Star','2+ Star','3+ Star','3.5+ Star','4+ Star','4.5+ Star'];
+  style: string;
 
   constructor(private newService: CommonService,
               private router: Router,
-              ) { }
-
+              public beerListService: BeerListService) { }
 
 
   ngOnInit(): void {
-    this.getBeer();
   }
 
-  getBeer = function() {    
-    this.newService.getBeer()  
-    .subscribe(data =>  {  
-      this.beers=data.result;
-      console.log(this.beers);
-      for(let i=0;i<this.beers.length;i++){
-        if(!this.breweryList.includes(this.beers[i].brewery)){
-          this.breweryList.push(this.beers[i].brewery);
-        }
-        if(!this.beerStyles.includes(this.beers[i].style)){
-          this.beerStyles.push(this.beers[i].style);
-        }
-      }
-      let x = this.beers.sort((a, b) => (a.brewery > b.brewery) ? 1 : -1);
-    }   
-    , error => this.errorMessage = error )  
+
+  sortByBrew(type){
+
+    if(type=='All Breweries'){
+      this.beerListService.beers=this.beerListService.beerList;
+    }else{
+      this.beerListService.beers=this.beerListService.beerList.filter((b)=>(b.brewery==type));
+    }
+
+    this.beerListService.beers = this.beerListService.beers.sort((a, b) => (a.name > b.name) ? 1 : -1);
   }
 
+  sortByStyle(type){
+    if(type=='All Styles'){
+      this.beerListService.beers=this.beerListService.beerList;
+    }else
+      this.beerListService.beers=this.beerListService.beerList.filter((b)=>(b.style.includes(type)));
+
+    this.beerListService.beers = this.beerListService.beers.sort((a, b) => (a.name > b.name) ? 1 : -1);
+  }
+
+    sortByRating(type){
+    if(type=='All Ratings'){
+      this.beerListService.beers=this.beerListService.beerList;
+    }else if(type=='1+ Star'){
+      this.beerListService.beers=this.beerListService.beerList.filter((b)=>(b.rating>=1));
+    }else if(type=='2+ Star'){
+      this.beerListService.beers=this.beerListService.beerList.filter((b)=>(b.rating>=2));
+    }else if(type=='3+ Star'){
+      this.beerListService.beers=this.beerListService.beerList.filter((b)=>(b.rating>=3));
+    }else if(type=='3.5+ Star'){
+      this.beerListService.beers=this.beerListService.beerList.filter((b)=>(b.rating>=3.5));
+    }else if(type=='4+ Star'){
+      this.beerListService.beers=this.beerListService.beerList.filter((b)=>(b.rating>=4));
+    }else if(type=='4.5+ Star'){
+      this.beerListService.beers=this.beerListService.beerList.filter((b)=>(b.rating>=4.5));
+    }
+
+    this.beerListService.beers = this.beerListService.beers.sort((a, b) => (a.rating > b.rating) ? 1 : -1);
+  }
 
   //expand or collapse card
   collapsed = -1;

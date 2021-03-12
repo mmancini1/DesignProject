@@ -1,25 +1,27 @@
 import { Injectable } from '@angular/core';
-
-// @Injectable({
-//   providedIn: 'root'
-// })
+import { Observable, of } from 'rxjs';
+import { tap, delay } from 'rxjs/operators';
 @Injectable()
 export class AuthService {
 
   constructor() { }
 
-  isAuthenticated() {
-    // get the auth token from localStorage
-    let token = localStorage.getItem('access_token');
+  isLoggedIn = false;
 
-    // check if token is set, then...
-    if (token) {
-        return true;
-    }
+  // store the URL so we can redirect after logging in
+  redirectUrl: string;
 
-    return false;
-}
+  login(): Observable<boolean> {
+    sessionStorage.setItem('login', 'true');
+    return of(true).pipe(
+      tap(val => this.isLoggedIn = true)
+    );
+  }
 
+  logout(): void {
+      sessionStorage.clear();
+      this.isLoggedIn = false;
+  }
 }
 
 

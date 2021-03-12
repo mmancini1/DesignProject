@@ -3,6 +3,8 @@ import { CommonService } from '../../service';
 import { FormGroup, FormControl, Validators, FormsModule, FormBuilder } from '@angular/forms';  
 import { Router } from '@angular/router';
 import { UserDetailsService } from '../../service/user-details/user-details.service';
+import { AuthGuardService } from '../../service/auth-guard.service';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -11,14 +13,15 @@ import { UserDetailsService } from '../../service/user-details/user-details.serv
 })
 export class LoginComponent implements OnInit {
   registerForm: FormGroup;
-  email: String;
-  pass: String;
+  email: string;
+  pass: string;
   submitted = false;
 
   constructor(private newService: CommonService,
               private route: Router,
               private formBuilder: FormBuilder,
-              private userDetails: UserDetailsService) { }
+              private userDetails: UserDetailsService,
+              private authService: AuthService) { }
 
   ngOnInit() {
         this.registerForm = this.formBuilder.group({
@@ -36,11 +39,22 @@ export class LoginComponent implements OnInit {
         if (this.registerForm.invalid) {
             return;
         }
+    console.log(this.registerForm.value);
     this.newService.login(this.registerForm.value)
       .subscribe(data => {  
           if(data){
-            this.userDetails.populateUser(data);
-            this.route.navigate(['/home']);
+            this.authService.login().subscribe(() => {
+              if (this.authService.isLoggedIn) {
+                sessionStorage.setItem('email',this.registerForm.value.email);
+                console.log(this.registerForm.value.email);
+                // Usually you would use the redirect URL from the auth service.
+                // However to keep the example simple, we will always redirect to `/admin`.
+                const redirectUrl = '/home';
+
+                // Redirect the user
+                this.route.navigate([redirectUrl]);
+              }
+            });
           }else{
             //throw invalid credentials
             //f.email.errors.required

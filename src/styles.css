@@ -3,7 +3,7 @@
 @import "~ag-grid-community/dist/styles/ag-grid.css";
 @import "~ag-grid-community/dist/styles/ag-theme-balham.css";
 @import '~bootstrap/dist/css/bootstrap.min.css';
-html,
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">html,
 body {
     height: 100%;
 }

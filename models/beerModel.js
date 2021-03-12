@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const beerSchema = new Schema({
+const BeerSchema = new Schema({
     name: { type: String },
     price: { type: Number },
     abv: { type: String },
@@ -10,8 +10,8 @@ const beerSchema = new Schema({
     description: { type: String },
     brewery: { type: String },
     date: { type: String },
+    img: { type: String },
     previousDate: { type: Array },
-}, { versionKey: false });
+});
 
-
-module.exports = beerSchema
+module.exports = mongoose.model('beers', BeerSchema, 'beers');

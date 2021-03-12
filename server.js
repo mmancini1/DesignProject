@@ -6,7 +6,8 @@ const moment = require('moment');
 const bcrypt = require("bcrypt");
 const nodemailer = require('nodemailer');
 const salt = 10;
-
+const BeerModel = require('./models/beerModel')
+const UserModel = require('./models/UserModel')
 
 const db = mongo.connect("mongodb://localhost:27017/designProject", function(err, response) {
     if (err) { console.log(err); } else { console.log('Connected to DB'); }
@@ -25,35 +26,23 @@ app.use(function(req, res, next) {
     next();
 });
 
-const Schema = mongo.Schema;
 
-const beerSchema = new Schema({
-    name: { type: String },
-    price: { type: Number },
-    abv: { type: String },
-    ibu: { type: String },
-    rating: { type: String },
-    description: { type: String },
-    brewery: { type: String },
-    date: { type: String },
-    previousDate: { type: Array },
-}, { versionKey: false });
-
-const SignUpSchema = new Schema({
-    name: { type: String },
-    email: { type: String },
-    addr: { type: String },
-    city: { type: String },
-    state: { type: String },
-    zip: { type: String },
-    pass: { type: String },
-    notifications: { type: Array },
-}, { versionKey: false });
-
-//schema
-const users = mongo.model('user', SignUpSchema, 'user');
-const beers = mongo.model('beers', beerSchema, 'beers');
-
+//verify user
+app.post("/api/login", function(req, res) {
+    console.log(req.body);
+    UserModel.findOne({ email: req.body.email }, function(err, result) {
+        console.log(result);
+        bcrypt.compare(req.body.pass, result.pass, (err, match) => {
+            if (err) {
+                throw err
+            } else if (!match) {
+                res.send({ login: false });
+            } else {
+                res.send({ login: true, name: result.name, email: result.email });
+            }
+        });
+    });
+});
 
 //saves user info to db
 app.post("/api/SignUp", function(req, res) {
@@ -75,7 +64,7 @@ app.post("/api/SignUp", function(req, res) {
 //notifications
 app.post("/api/notifications", function(req, res) {
     const projection = { email: 1 };
-    users.find({ email: req.body.email }, { email: 1, notifications: 1 }, function(err, result) {
+    UserModel.find({ email: req.body.email }, { email: 1, notifications: 1 }, function(err, result) {
         if (err) {
             throw err
         } else {
@@ -84,9 +73,9 @@ app.post("/api/notifications", function(req, res) {
     });
 });
 
-//notifications
+// delete notifications
 app.post("/api/deleteNotification", function(req, res) {
-    users.update({ email: req.body.email }, { $pull: { notifications: { brewery: req.body.brewery, style: req.body.style } } }, function(err, result) {
+    UserModel.updateOne({ email: req.body.email }, { $pull: { notifications: { brewery: req.body.brewery, style: req.body.style } } }, function(err, result) {
         if (err) {
             throw err
         } else {
@@ -95,9 +84,9 @@ app.post("/api/deleteNotification", function(req, res) {
     });
 });
 
-
+// add notifications
 app.post("/api/addNotification", function(req, res) {
-    users.updateOne({ email: req.body.email }, { '$push': { notifications: { brewery: req.body.brewery, style: req.body.style } } }, function(err, result) {
+    UserModel.updateOne({ email: req.body.email }, { '$push': { notifications: { brewery: req.body.brewery, style: req.body.style } } }, function(err, result) {
         if (err) {
             throw err
         } else {
@@ -106,29 +95,12 @@ app.post("/api/addNotification", function(req, res) {
     });
 });
 
-
-//verify user
-app.post("/api/login", function(req, res) {
-    users.findOne({ email: req.body.email }, function(err, result) {
-        bcrypt.compare(req.body.pass, result.pass, (err, match) => {
-            console.log(result);
-            console.log(match);
-            if (err) {
-                throw err
-            } else if (!match) {
-                res.send({ login: false });
-            } else {
-                res.send({ login: true, name: result.name, email: result.email });
-            }
-        });
-    });
-});
 
 
 //retrieve beer
 app.get("/api/getBeer", function(req, res) {
     const d = moment().format('MM/DD/YY');
-    beers.find({ date: d }, function(err, result) {
+    BeerModel.find({ date: d }, function(err, result) {
         if (err) {
             res.send(err);
         } else {
@@ -138,115 +110,68 @@ app.get("/api/getBeer", function(req, res) {
 });
 
 
-
-
-app.post("/api/SaveUser", function(req, res) {
-    const mod = new model(req.body);
-    if (req.body.mode == "Save") {
-        mod.save(function(err, data) {
-            if (err) {
-                res.send(err);
-            } else {
-                res.send({ data: "Record has been Inserted..!!" });
-            }
-        });
-    } else {
-        model.findByIdAndUpdate(req.body.id, {
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                email: req.body.email,
-                phoneNo: req.body.phoneNo
-            },
-            function(err, data) {
-                if (err) {
-                    res.send(err);
-                } else {
-                    res.send({ data: "Record has been Updated..!!" });
-                }
-            });
-
-
-    }
-})
-
-app.post("/api/deleteUser", function(req, res) {
-    model.remove({ _id: req.body.id }, function(err) {
-        if (err) {
-            res.send(err);
-        } else {
-            res.send({ data: "Record has been Deleted..!!" });
+function sendEmail(recipient, emailBody) {
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'beerfinder123@gmail.com',
+            pass: 'beerificationwebsite'
         }
     });
-})
 
+    var mailOptions = {
+        from: 'BEERIFICATION <beerfinder123@gmail.com>',
+        to: recipient,
+        subject: "we've got beer for you!",
+        text: emailBody,
+    };
 
-app.get("/api/getUser", function(req, res) {
-    model.find({}, function(err, data) {
-        if (err) {
-            res.send(err);
+    transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+            console.log(error);
         } else {
-            res.send(data);
-        }
-    });
-})
-
-
-// var transporter = nodemailer.createTransport({
-//     service: 'gmail',
-//     auth: {
-//         user: 'beerfinder123@gmail.com',
-//         pass: 'beerificationwebsite'
-//     }
-// });
-
-// var mailOptions = {
-//     from: 'BEERIFICATION <beerfinder123@gmail.com>',
-//     to: 'footballmaniac0788@yahoo.com',
-//     subject: "we've got beer for you!",
-//     text: 'Sup Bro!\n\nCheck out this beer!'
-// };
-
-// transporter.sendMail(mailOptions, function(error, info) {
-//     if (error) {
-//         console.log(error);
-//     } else {
-//         console.log('Email sent: ' + info.response);
-//     }
-// });
-
-
-
-
-function test() {
-
-    //this is a test for when I automate this piece
-    const projection = { email: 1 };
-    const email = "test@test.com";
-    // const d = moment().format('MM/DD/YY');
-    const d = moment().format('03/03/21');
-    users.find({ email: email }, { email: 1, notifications: 1 }, function(err, result) {
-        if (err) {
-            throw err;
-        } else {
-            beers.find({ date: d }, function(err, beers) {
-                if (err) {
-                    throw err;
-                } else {
-                    console.log(beers);
-                }
-            });
-            for (let i = 0; i < result[0].notifications.length; i++) {
-                console.log(result[0].notifications[i]);
-            }
-
+            console.log('Email sent: ' + info.response);
         }
     });
 }
 
-test();
+
+function test() {
+    //this is a test for when I automate this piece
+    const d = moment().format('MM/DD/YY');
+    UserModel.find({ email: { $exists: true } }, { email: 1, notifications: 1 }, function(err, result) {
+        if (err) {
+            throw err;
+        } else {
+            //outer loop through users
+            for (let i = 0; i < result.length; i++) {
+                email = result[i].email;
+                //inner loop through users notifications
+                for (let j = 0; j < result[i].notifications.length; j++) {
+                    console.log(result[i].notifications[j]);
+                    brewery = result[i].notifications[j].brewery;
+                    style = result[i].notifications[j].style;
+                    BeerModel.find({ date: d, brewery: brewery, name: style }, function(err, beers) {
+                        if (err) {
+                            throw err;
+                        } else {
+                            if (beers.length > 0) {
+                                emailBody = beers[0].brewery + ' just released ' + beers[0].name;
+                                // sendEmail(email,emailBody);
+                            }
+                        }
+                    });
+                }
+                //send email here
+            }
+        }
+    });
+}
+
+// test();
 
 
 
 app.listen(8080, function() {
-    console.log('Example app listening on port 8080!')
+    console.log('App listening on port 8080!')
 })
