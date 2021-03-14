@@ -13,7 +13,7 @@ import { AuthService } from '../../service/auth.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 
 export class HomeComponent implements OnInit{
@@ -24,14 +24,7 @@ export class HomeComponent implements OnInit{
               private beerListService: BeerListService,
               private authService: AuthService,) {}  
 
-
-  changeRoute(route){
-    this.router.navigate([{outlets: {subRoute: route}}]);
-  };
-
-
    ngOnInit() {
-    //  this.router.navigate([{outlets: {subRoute: 'beerlist'}}]);
   }
 
   logout(){

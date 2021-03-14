@@ -4,6 +4,7 @@
             <h1>BEERIFICATION</h1>
             <form class="signin_form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
                 <div class="form">
+                    <div class="text-danger" *ngIf="!validLogin">Invalid Email or Password</div>
                     <input type="text" formControlName="email" class="signin_action" placeholder="Email Address" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
                     <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                         <div *ngIf="f.email.errors.required">Email is required</div>
@@ -12,8 +13,9 @@
                 <div class="form">
                     <input type="password" formControlName="pass" class="signin_action" placeholder="Password" [ngClass]="{ 'is-invalid': submitted && f.pass.errors }" />
                     <div *ngIf="submitted && f.pass.errors" class="invalid-feedback">
-                        <div *ngIf="f.pass.errors.required">Password is required</div>
+                        <div>Password is required</div>
                     </div>
+
                 </div>
                 <button class="signin_action"> Sign In</button>
             </form>

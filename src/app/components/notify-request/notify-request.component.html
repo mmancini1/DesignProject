@@ -26,7 +26,7 @@
                                 <option *ngFor="let beer of this.beerListService.beers"  value="{{beer.name}}">{{beer.name}}</option>
                             </optgroup>
                         </select>
-                        <button id="addBTN" (click)="addNotification()">Add!</button>
+                        <i id="addBTN" (click)="addNotification()" class="material-icons">add_circle</i>
                     </p>
                 </mat-nav-list>
             </div>
@@ -38,7 +38,7 @@
             <div class="bgColor">
                 <mat-list role="list">
                     <mat-list-item *ngFor="let n of notifications" role="listitem">
-                        <p>Notify me anytime <b><u>{{n.brewery}}</u></b> releases <b><u>{{n.style}}</u></b> <button id="delBTN" (click)="deleteNotification(n.brewery,n.style)"><i class="material-icons">delete_forever</i></button></p>
+                        <p>Notify me anytime <b><u>{{n.brewery}}</u></b> releases <b><u>{{n.style}}</u></b> <i id="delBTN" (click)="deleteNotification(n.brewery,n.style)" class="material-icons">delete_forever</i></p>
                     </mat-list-item>
                 </mat-list>
             </div>

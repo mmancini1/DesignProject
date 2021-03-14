@@ -1,25 +1,25 @@
 <mat-toolbar>
     <mat-nav-list class="list-horizontal">
         <mat-list-item>
-            <button mat-menu-item (click)="changeRoute('beerlist')">Discover Beer</button>
+            <button mat-menu-item routerLink='/home/beerlist'>Discover</button>
         </mat-list-item>
 
         <mat-list-item>
-            <button mat-menu-item (click)="changeRoute('notify')">My Notifications</button>
+            <button mat-menu-item routerLink='/home/notify'>Notifications</button>
         </mat-list-item>
 
         <mat-list-item>
-            <button mat-menu-item [matMenuTriggerFor]="billsmenu">Profile</button>
+            <button mat-menu-item [matMenuTriggerFor]="settingsmenu">Settings</button>
         </mat-list-item>
-
-        <mat-menu #billsmenu="matMenu" [overlapTrigger]="false">
+        <mat-menu #settingsmenu="matMenu" class="dropDownItems" [overlapTrigger]="false">
             <button mat-menu-item>
-                    <span>Settings</span>
+                <span>My Profile</span>
             </button>
 
             <button mat-menu-item (click)='logout()'>
-                    <span>Logout</span>
+                <span>Logout</span>
             </button>
         </mat-menu>
     </mat-nav-list>
 </mat-toolbar>
+<router-outlet></router-outlet>

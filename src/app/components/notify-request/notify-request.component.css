@@ -18,11 +18,17 @@
 #delBTN {
     float: right;
     clear: both;
+    cursor: pointer;
+    color: red;
+    font-size: 30px;
 }
 
 #addBTN {
     float: right;
-    padding-right: 15px;
+    clear: both;
+    cursor: pointer;
+    color: green;
+    font-size: 28px;
 }
 
 h1 {

@@ -4,6 +4,7 @@ import { FormGroup,FormControl,Validators,FormsModule, FormArray, FormBuilder } 
 import { MatTableDataSource } from '@angular/material/table';
 import { UserDetailsService } from '../../service/user-details/user-details.service';
 import { BeerListService } from '../../service/beerList/beer-list.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-notify-request',
