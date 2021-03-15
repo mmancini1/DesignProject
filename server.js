@@ -29,9 +29,7 @@ app.use(function(req, res, next) {
 
 //verify user
 app.post("/api/login", function(req, res) {
-    console.log(req.body);
     UserModel.findOne({ email: req.body.email }, function(err, result) {
-        console.log(result);
         bcrypt.compare(req.body.pass, result.pass, (err, match) => {
             if (err) {
                 throw err
@@ -96,11 +94,9 @@ app.post("/api/addNotification", function(req, res) {
 });
 
 
-
 //retrieve beer
 app.get("/api/getBeer", function(req, res) {
-    const d = moment().format('MM/DD/YY');
-    BeerModel.find({ date: d }, function(err, result) {
+    BeerModel.find(function(err, result) {
         if (err) {
             res.send(err);
         } else {

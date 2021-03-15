@@ -31,3 +31,7 @@
         color: wheat;
         background-color: black;
     }
+    
+    button:hover {
+        background-color: darkslategray;
+    }
