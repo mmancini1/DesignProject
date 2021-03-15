@@ -15,7 +15,8 @@ export class LoginComponent implements OnInit {
   registerForm: FormGroup;
   email: string;
   pass: string;
-  submitted = false;
+  submitted: boolean = false;
+  validLogin: boolean = true;
 
   constructor(private newService: CommonService,
               private route: Router,
@@ -26,8 +27,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
         this.registerForm = this.formBuilder.group({
             email: ['', [Validators.required, Validators.email]],
-            // pass: ['', [Validators.required, Validators.minLength(6)]]
-            pass: ['', [Validators.required, Validators.minLength(3)]]
+            pass: ['', [Validators.required]]
         });
   }
 
@@ -35,13 +35,12 @@ export class LoginComponent implements OnInit {
 
   onSubmit(){
     this.submitted = true;
-    // stop here if form is invalid
     if (this.registerForm.invalid) {
         return;
     }
     this.newService.login(this.registerForm.value)
-      .subscribe(data => {  
-          if(data){
+      .subscribe(data => {
+          if(data.login==true){
             this.authService.login().subscribe(redirectUrl => {
               if (this.authService.isLoggedIn) {
                 sessionStorage.setItem('email',this.registerForm.value.email);
@@ -50,12 +49,9 @@ export class LoginComponent implements OnInit {
               }
             });
           }else{
-            //throw invalid credentials
-            //f.email.errors.required
+            this.validLogin = false;
           }
-      }); 
+      });
   }
-
-
 
 }

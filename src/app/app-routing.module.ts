@@ -12,9 +12,12 @@ import { AuthGuardService } from './service/auth-guard.service';
 const routes: Routes = [
   { path: '',  redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent,  },
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuardService]},
-  { path: 'beerlist', outlet:'subRoute' , component: BeerListComponent, },
-  { path: 'notify', outlet:'subRoute' , component: NotifyRequestComponent, },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuardService],
+    children:[
+      {path: 'beerlist', component: BeerListComponent},
+      {path: 'notify', component: NotifyRequestComponent}
+    ],
+  },
   { path: 'signup', component: SignupComponent, },
   { path: 'resetpassword', component: ResetPasswordComponent },
   { path: '**', redirectTo: '/login' },

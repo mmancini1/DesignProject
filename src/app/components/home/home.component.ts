@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonService } from '../../service';
 import { FormGroup,FormControl,Validators,FormsModule, } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
@@ -13,7 +13,8 @@ import { AuthService } from '../../service/auth.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
+  // encapsulation: ViewEncapsulation.None
 })
 
 export class HomeComponent implements OnInit{
@@ -24,14 +25,7 @@ export class HomeComponent implements OnInit{
               private beerListService: BeerListService,
               private authService: AuthService,) {}  
 
-
-  changeRoute(route){
-    this.router.navigate([{outlets: {subRoute: route}}]);
-  };
-
-
    ngOnInit() {
-    //  this.router.navigate([{outlets: {subRoute: 'beerlist'}}]);
   }
 
   logout(){

@@ -7,8 +7,8 @@
         width: auto;
     }
     
-    .mat-menu-content {
-        background-color: black;
+    .mat-menu-content:hover {
+        background-color: darkslategrey;
     }
     
     .mat-toolbar-row,
@@ -30,4 +30,8 @@
     button {
         color: wheat;
         background-color: black;
+    }
+    
+    button:hover {
+        background-color: darkslategray;
     }

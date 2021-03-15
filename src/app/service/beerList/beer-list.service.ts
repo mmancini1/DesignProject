@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { CommonService } from '../../service';
+import { formatDate } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
+  
 })
 export class BeerListService {
 
@@ -10,15 +12,18 @@ export class BeerListService {
   beerList: any=[];
   breweryList: any=["All Breweries"];
   beerStyles: any = ["All Styles"];
+  allBeers: any=[];
 
-  constructor(private newService: CommonService) { 
+  constructor(private newService: CommonService,) { 
     this.getBeer();
   }
 
   getBeer = function() {    
     this.newService.getBeer()  
     .subscribe(data =>  {  
-      this.beers=data.result;
+      let d=formatDate(new Date(), 'MM/dd/yy', 'en');
+      this.beers=data.result.filter(beer => beer.date === d);
+      this.allBeers = data.result;
       this.beerList=this.beers;
       for(let i=0;i<this.beers.length;i++){
         if(!this.breweryList.includes(this.beers[i].brewery)){
@@ -29,10 +34,12 @@ export class BeerListService {
           this.beerStyles.push(this.style);
         }
       }
+
       this.beers = this.beers.sort((a, b) => (a.brewery > b.brewery) ? 1 : -1);
       this.breweryList = this.breweryList.sort((a, b) => (a > b) ? 1 : -1);
       this.beerStyles = this.beerStyles.sort((a, b) => (a > b) ? 1 : -1);
     }
+
     , error => this.errorMessage = error )
     return true;
   }

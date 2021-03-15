@@ -8,6 +8,10 @@ body {
     height: 100%;
 }
 
+.customize+* .mat-menu-panel {
+    background-color: black;
+}
+
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
