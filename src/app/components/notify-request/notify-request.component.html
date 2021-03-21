@@ -12,18 +12,18 @@
                 <mat-nav-list>
                     <p>Notify me anytime
                         <select name="breweryList" [(ngModel)]="breweryOption" (change)="updateSelect()">
-                            <option *ngFor="let brew of this.beerListService.breweryList">{{brew}}</option>
+                            <option *ngFor="let brew of this.allBreweries">{{brew}}</option>
                         </select> releases
 
                         <select matNativeControl [(ngModel)]="beerStyle">
                             <option value="Any Beer or Style">Any Beer or Style</option>
                             
                             <optgroup label="Style">
-                                <option *ngFor="let style of this.beerListService.beerStyles"  value="{{style}}">{{style}}</option>
+                                <option *ngFor="let style of this.allStyles"  value="{{style}}">{{style}}</option>
                             </optgroup>
 
                             <optgroup label="Beers">
-                                <option *ngFor="let beer of this.beerListService.beers"  value="{{beer.name}}">{{beer.name}}</option>
+                                <option *ngFor="let beer of this.selectedBrewery"  value="{{beer.name}}">{{beer.name}}</option>
                             </optgroup>
                         </select>
                         <i id="addBTN" (click)="addNotification()" class="material-icons">add_circle</i>

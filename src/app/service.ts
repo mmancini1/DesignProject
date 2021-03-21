@@ -21,33 +21,33 @@ export class CommonService {
          )
     }
     
-    //log in to db
+    //log in user holds username and password
     login(user) {
         return this.http.post('http://localhost:8080/api/login/', user).
         pipe(
             map((data: any) => {
               return data;
             }), catchError( error => {
-              return throwError( 'error' );
+              return throwError( 'login error' );
             })
          )
     }
 
-    //get beer data
+    //get beer data - retrieves entire db of beer
     getBeer() {
         return this.http.get('http://localhost:8080/api/getBeer/').pipe(
             map((data: any) => {
                 return data;
             }), catchError(error => {
-                return throwError('Something went wrong!');
+                return throwError('get beer error');
             })
         )
     }
 
 
-    //get beer data
-    notify(user) {
-        return this.http.post('http://localhost:8080/api/notifications/', user).pipe(
+    //gets 
+    getNotifications(user) {
+        return this.http.post('http://localhost:8080/api/getNotifications/', user).pipe(
             map((data: any) => {
               return data;
             }), catchError( error => {
@@ -75,38 +75,5 @@ export class CommonService {
             })
          )
     }
-
-    GetUser() {
-        return this.http.get('http://localhost:8080/api/getUser/').pipe(
-            map((data: any) => {
-                return data;
-            }), catchError(error => {
-                return throwError('Something went wrong!');
-            })
-        )
-    }
-
-    saveUser(user) {
-        return this.http.post('http://localhost:8080/api/saveUser/', user).
-        pipe(
-            map((data: any) => {
-              return data;
-            }), catchError( error => {
-              return throwError( 'Something went wrong!' );
-            })
-         )
-    }
-
-
-    deleteUser(id){   
-        return this.http.post('http://localhost:8080/api/deleteUser/',{'id': id}).
-        pipe(
-            map((data: any) => {
-            return data;
-            }), catchError( error => {
-            return throwError( 'Something went wrong!' );
-            })
-        )                 
-    }  
   
 }  

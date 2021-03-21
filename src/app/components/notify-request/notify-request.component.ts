@@ -19,25 +19,49 @@ export class NotifyRequestComponent implements OnInit {
   hasData: number;
   style: string;
   email: string;
-
+  beerArray: any;
+  allBreweries: any=['All Breweries'];
+  allStyles: any=['All Styles'];
+  selectedBrewery: any;
 
 
   constructor(private newService :CommonService,
               private fb: FormBuilder,
               private userDetails: UserDetailsService,
-              public beerListService: BeerListService) { }
+              private beerListService: BeerListService) { }
 
   ngOnInit(): void {
     this.email = sessionStorage.getItem('email');
     this.updateNotifications();
+    this.getBeers();
+  }
+
+  getBeers(): void {
+    this.beerListService.getBeer().subscribe(beerList => {
+      this.beerArray = beerList;
+      this.beerArray = this.beerArray.result;
+      for(let i=0;i<this.beerArray.length;i++){
+        if(!this.allBreweries.includes(this.beerArray[i].brewery)){
+          this.allBreweries.push(this.beerArray[i].brewery);
+        }
+        this.style = this.beerArray[i].style.split(' - ')[0]
+        if(!this.allStyles.includes(this.style)){
+          this.allStyles.push(this.style);
+        }
+      }
+    });
   }
 
   updateSelect(){
-      this.beerListService.beers = this.beerListService.beerList.filter(beer => beer.brewery === this.breweryOption);
+    if(this.breweryOption=='All Breweries'){
+      this.selectedBrewery = this.beerArray;
+    }else{
+      this.selectedBrewery = this.beerArray.filter(beer => beer.brewery === this.breweryOption);
+    }
   }
 
   updateNotifications = function() {
-    this.newService.notify({email: this.email})  
+    this.newService.getNotifications({email: this.email})  
     .subscribe(data =>  {
       if(data.length>0){
         this.notifications = data[0].notifications;

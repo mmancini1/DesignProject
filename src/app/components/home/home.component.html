@@ -1,7 +1,8 @@
 <mat-toolbar>
     <mat-nav-list class="list-horizontal">
+
         <mat-list-item>
-            <button mat-menu-item routerLink='/home/beerlist'>Discover</button>
+            <button mat-menu-item routerLink='/home/beerlist'>New Releases</button>
         </mat-list-item>
 
         <mat-list-item>
@@ -11,6 +12,7 @@
         <mat-list-item>
             <button mat-menu-item [matMenuTriggerFor]="settingsmenu">Settings</button>
         </mat-list-item>
+
         <mat-menu #settingsmenu="matMenu" backdropClass="customize" [overlapTrigger]="false">
             <button mat-menu-item>
                 <span>My Profile</span>
@@ -20,6 +22,7 @@
                 <span>Logout</span>
             </button>
         </mat-menu>
+
     </mat-nav-list>
 </mat-toolbar>
 <router-outlet></router-outlet>

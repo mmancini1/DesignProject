@@ -4,28 +4,28 @@
         <div class="dropdown">
             <button id="leftBTN" class="dropbtn">Brewery</button>
             <div class="dropdown-content">
-                <a *ngFor='let brewery of this.beerListService.breweryList' (click)="sortByBrew(brewery)">{{brewery}}</a>
+                <a *ngFor='let brewery of this.currentBreweries' (click)="sortByBrew(brewery)">{{brewery}}</a>
             </div>
         </div>
 
         <div class="dropdown">
             <button id="midBTN" class="dropbtn">Style</button>
             <div class="dropdown-content">
-                <a *ngFor='let style of this.beerListService.beerStyles' (click)="sortByStyle(style)">{{style}}</a>
+                <a *ngFor='let style of this.currentStyles' (click)="sortByStyle(style)">{{style}}</a>
             </div>
         </div>
 
         <div class="dropdown">
             <button id="rightBTN" class="dropbtn">Rating</button>
             <div class="dropdown-content">
-                <a *ngFor='let rating of beerRating' (click)="sortByRating(rating)">{{rating}}</a>
+                <a *ngFor='let rating of beerRating|keyvalue' (click)="sortByRating(rating.value)">{{rating.key}}</a>
             </div>
         </div>
     </div>
 
     <div class="background">
         <div class="card-container">
-            <mat-card class="home-card" *ngFor="let beer of this.beerListService.beers; let i = index" (click)="collapse(i)">
+            <mat-card class="home-card" *ngFor="let beer of this.currentBeer; let i = index" (click)="collapse(i)">
                 <mat-card-title>
                     {{beer.brewery}}
                 </mat-card-title>

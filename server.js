@@ -46,21 +46,22 @@ app.post("/api/login", function(req, res) {
 app.post("/api/SignUp", function(req, res) {
     bcrypt.hash(req.body.pass, salt, (err, hash) => {
         req.body.pass = hash;
-        const usr = new users(req.body);
+        const usr = new UserModel(req.body);
         //need to check if email exists
         usr.save(function(err, data) {
             if (err) {
                 res.send(err);
             } else {
-                res.send({ data: "Record has been Inserted..!!" });
+                console.log(data);
+                res.send(data);
             }
         });
     });
 });
 
 
-//notifications
-app.post("/api/notifications", function(req, res) {
+//get notifications
+app.post("/api/getNotifications", function(req, res) {
     const projection = { email: 1 };
     UserModel.find({ email: req.body.email }, { email: 1, notifications: 1 }, function(err, result) {
         if (err) {

@@ -16,10 +16,7 @@ export class AuthService {
   login(): Observable<string> {
     sessionStorage.setItem('login', 'true');
     this.isLoggedIn=true;
-    return of('/home');
-    // return of(true).pipe(
-    //   tap(val => this.isLoggedIn = true)
-    // );
+    return of('/home/beerlist');
   }
 
   logout(): void {
