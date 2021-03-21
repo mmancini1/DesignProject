@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { StarRatingComponent } from 'ng-starrating';
 import { Router } from '@angular/router';
 import { BeerListService } from '../../service/beerList/beer-list.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-beer-list',
@@ -13,58 +14,82 @@ import { BeerListService } from '../../service/beerList/beer-list.service';
 })
 export class BeerListComponent implements OnInit {
 
-
-  beers: any;
-  beerList: any;
-  item: any;
-  beerRating: any = ['All Ratings','1+ Star','2+ Star','3+ Star','3.5+ Star','4+ Star','4.5+ Star'];
-  style: string;
+  beerRating: any= {' All Ratings':0,'1+ Star':1,'2+ Star':2,'3+ Star':3,'3.5+ Star':3.5,'4+ Star':4,'4.5+ Star':4.5};
+  currentBeer: any=[];
+  currentBreweries: any=['All Breweries'];
+  currentStyles: any=['All Styles'];
+  allBeers: any;
+  newReleases: any=[];
 
   constructor(private newService: CommonService,
               private router: Router,
-              public beerListService: BeerListService) { }
+              private beerListService: BeerListService) { }
 
 
   ngOnInit(): void {
+    this.getBeers();
   }
 
+  getBeers(): void {
+    let style: string;
+    this.beerListService.getBeer().subscribe(beerList => {
+      this.currentBeer = beerList;
+
+
+      let d=formatDate(new Date(), 'MM/dd/yy', 'en');
+      this.currentBeer=this.currentBeer.result.filter(beer => beer.date === d);
+      for(let i=0;i<this.currentBeer.length;i++){
+        if(!this.currentBreweries.includes(this.currentBeer[i].brewery)){
+          this.currentBreweries.push(this.currentBeer[i].brewery);
+        }
+        style = this.currentBeer[i].style.split(' - ')[0]
+        if(!this.currentStyles.includes(style)){
+          this.currentStyles.push(style);
+        }
+      }
+      this.allBeers = this.currentBeer;
+      
+      //this will get info for new releases
+      let dt = new Date(d)
+      dt.setDate(dt.getDate() - 1)
+      let yesterday  = formatDate(dt,'MM/dd/yy', 'en');
+      for(let item in this.allBeers){
+        let t = this.allBeers[item].previousDate;
+        if(t[t.length-2]!=yesterday &&t[t.length-2]!=d){
+          this.newReleases.push(this.allBeers[item]);
+        }
+      }
+
+      console.log(this.newReleases);
+
+    });
+  }
 
   sortByBrew(type){
-
     if(type=='All Breweries'){
-      this.beerListService.beers=this.beerListService.beerList;
+      this.currentBeer=this.allBeers;
     }else{
-      this.beerListService.beers=this.beerListService.beerList.filter((b)=>(b.brewery==type));
+      this.currentBeer=this.allBeers.filter((b)=>(b.brewery==type));
     }
-    this.beerListService.beers = this.beerListService.beers.sort((a, b) => (a.name > b.name) ? 1 : -1);
+    this.currentBeer = this.currentBeer.sort((a, b) => (a.name > b.name) ? 1 : -1);
   }
 
   sortByStyle(type){
     if(type=='All Styles'){
-      this.beerListService.beers=this.beerListService.beerList;
+      this.currentBeer=this.allBeers;
     }else
-      this.beerListService.beers=this.beerListService.beerList.filter((b)=>(b.style.includes(type)));
+      this.currentBeer=this.allBeers.filter((b)=>(b.style.includes(type)));
 
-    this.beerListService.beers = this.beerListService.beers.sort((a, b) => (a.name > b.name) ? 1 : -1);
+    this.currentBeer=this.currentBeer.sort((a, b) => (a.name > b.name) ? 1 : -1);
   }
 
-    sortByRating(type){
-    if(type=='All Ratings'){
-      this.beerListService.beers=this.beerListService.beerList;
-    }else if(type=='1+ Star'){
-      this.beerListService.beers=this.beerListService.beerList.filter((b)=>(b.rating>=1));
-    }else if(type=='2+ Star'){
-      this.beerListService.beers=this.beerListService.beerList.filter((b)=>(b.rating>=2));
-    }else if(type=='3+ Star'){
-      this.beerListService.beers=this.beerListService.beerList.filter((b)=>(b.rating>=3));
-    }else if(type=='3.5+ Star'){
-      this.beerListService.beers=this.beerListService.beerList.filter((b)=>(b.rating>=3.5));
-    }else if(type=='4+ Star'){
-      this.beerListService.beers=this.beerListService.beerList.filter((b)=>(b.rating>=4));
-    }else if(type=='4.5+ Star'){
-      this.beerListService.beers=this.beerListService.beerList.filter((b)=>(b.rating>=4.5));
+  sortByRating(type){
+    if(type==0){
+      this.currentBeer=this.allBeers;
+    }else{
+      this.currentBeer=this.allBeers.filter((b)=>(b.rating>=type));
     }
-    this.beerListService.beers = this.beerListService.beers.sort((a, b) => (a.rating > b.rating) ? 1 : -1);
+    this.currentBeer=this.currentBeer.sort((a, b) => (a.rating > b.rating) ? 1 : -1);
   }
 
   //expand or collapse card
@@ -76,16 +101,4 @@ export class BeerListComponent implements OnInit {
       this.collapsed = i;
     }
   }
-}
-
-export interface Beer {
-    name: String,
-    price: number,
-    abv: String,
-    ibu: String,
-    rating: String,
-    description: String,
-    brewery: String,
-    date: String
-    style: String,
 }

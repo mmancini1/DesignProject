@@ -44,7 +44,6 @@ export class LoginComponent implements OnInit {
             this.authService.login().subscribe(redirectUrl => {
               if (this.authService.isLoggedIn) {
                 sessionStorage.setItem('email',this.registerForm.value.email);
-                // Redirect the user
                 this.route.navigate([redirectUrl]);
               }
             });

@@ -12,6 +12,9 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatListModule } from '@angular/material/list';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -20,11 +23,9 @@ import { NotifyRequestComponent } from './components/notify-request/notify-reque
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { FormGroup, FormControl, FormsModule, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';  
-import {MatMenuModule} from '@angular/material/menu';
-import {MatListModule} from '@angular/material/list';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthGuardService } from './service/auth-guard.service';
 import { AuthService } from './service/auth.service';
+import { MatStepperModule } from '@angular/material/stepper';
 
 
 @NgModule({
@@ -52,6 +53,7 @@ import { AuthService } from './service/auth.service';
     MatCardModule,
     MatButtonModule,
     MatMenuModule,
+    MatStepperModule,
     MatListModule,
     MatToolbarModule,
     NgbModule,

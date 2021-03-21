@@ -12,6 +12,10 @@ body {
     background-color: black;
 }
 
+.customize+* .mat-menu-panel:hover {
+    background-color: darkslategray;
+}
+
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
