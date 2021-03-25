@@ -1,26 +1,61 @@
 <body>
     <div class="signup_container">
         <h1>Create a New Account</h1>
-        <form #newUser="ngForm" (ngSubmit)="onSave(newUser)">
+        <form [formGroup]="registerForm" (ngSubmit)="onSave()">
+            <div class="column left">
 
-            <input name="name" [(ngModel)]="name" placeholder="Name" required>
+                <input type="text" formControlName="name" class="signup_action" placeholder="Name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+                <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                    <div *ngIf="f.name.errors.required">Name is required</div>
+                </div>
 
-            <input name="email" [(ngModel)]="email" placeholder="Email Address" email='true' required>
+                <input type="text" formControlName="email" class="signup_action right" placeholder="Email Address" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                    <div *ngIf="f.email.errors.required">Email is required</div>
+                </div>
 
-            <input name="addr" [(ngModel)]="addr" placeholder="Street Address" required>
+                <input type="password" formControlName="pass" class="signup_action" placeholder="Password" [ngClass]="{ 'is-invalid': submitted && f.pass.errors }" />
+                <div *ngIf="submitted && f.pass.errors" class="invalid-feedback">
+                    <div>Password is required</div>
+                </div>
 
-            <input name="city" [(ngModel)]="city" placeholder="City" required>
+                <input type="password" formControlName="conpass" class="signup_action right" placeholder="Confirm Password" [ngClass]="{ 'is-invalid': submitted && f.conpass.errors }" />
+                <div *ngIf="submitted && f.conpass.errors" class="invalid-feedback">
+                    <div>Password is required</div>
+                </div>
+            </div>
 
-            <input name="state" [(ngModel)]="state" placeholder="State" required>
+            <div class="column right">
 
-            <input name="zip" [(ngModel)]="zip" placeholder="Zip" required>
+                <input type="text" formControlName="addr" class="signup_action " placeholder="Address" [ngClass]="{ 'is-invalid': submitted && f.addr.errors }" />
+                <div *ngIf="submitted && f.addr.errors" class="invalid-feedback">
+                    <div *ngIf="f.addr.errors.required">Address is required</div>
+                </div>
 
-            <input name="pass" type="password" [(ngModel)]="pass" placeholder="Password" autocomplete="new-password" required>
+                <input type="text" formControlName="city" class="signup_action right" placeholder="City" [ngClass]="{ 'is-invalid': submitted && f.city.errors }" />
+                <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
+                    <div *ngIf="f.city.errors.required">City is required</div>
+                </div>
 
-            <input name="conPass" type="password" [(ngModel)]="conPass" placeholder="Confirm Password" autocomplete="new-password" required>
+                <select formControlName="state">
+                    <option value="" disabled selected>State</option>
+                    <option *ngFor='let state of states' [ngClass]="{ 'is-invalid': submitted && f.state.errors }">{{state}}</option>
+                </select>
+                <div *ngIf="submitted && f.state.errors" class="invalid-feedback">
+                    <div *ngIf="f.state.errors.required">State is required</div>
+                </div>
 
+                <input type="text" formControlName="zip" class="signup_action right" placeholder="Zip" [ngClass]="{ 'is-invalid': submitted && f.zip.errors }" />
+                <div *ngIf="submitted && f.zip.errors" class="invalid-feedback">
+                    <div *ngIf="f.zip.errors.required">Zip Code is required</div>
+                </div>
+
+            </div>
             <button>Sign Up</button>
         </form>
-        <a routerLink="/login">Go back</a>
+        <div class="test">
+            <a routerLink="/login">Go back</a>
+        </div>
     </div>
+
 </body>
