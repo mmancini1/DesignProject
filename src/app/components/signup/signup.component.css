@@ -1,6 +1,6 @@
 .signup_container {
-    width: 300px;
-    height: 550px;
+    width: 500px;
+    height: 500px;
     margin: 100px auto;
     padding: 10px 20px;
     align-content: center;
@@ -8,15 +8,9 @@
     border-radius: 5px;
 }
 
-.signup_action {
-    font-size: 14px;
-    padding: 8.85px 13px;
-    border-radius: 5px;
-    box-shadow: none;
-}
-
-input {
-    margin-bottom: 10px;
+.form {
+    padding-bottom: 20px;
+    width: 100%;
 }
 
 .signup_form {
@@ -44,18 +38,54 @@ button:active {
 }
 
 input {
+    margin-top: 20px;
     font-size: 14px;
     padding: 8.85px 13px;
     border-radius: 5px;
     box-shadow: none;
-    width: 100%;
     border-width: 1px;
     border-color: gray;
     border-style: solid;
+}
+
+select {
+    margin-top: 20px;
+    font-size: 14px;
+    padding: 8.85px 13px;
+    border-radius: 5px;
+    box-shadow: none;
+    width: 99%;
+    height: 41px;
+    border-width: 1px;
+    border-color: gray;
+    border-style: solid;
+}
+
+a {
+    margin-top: 15px;
+}
+
+test {
+    margin-top: 150px;
 }
 
 .background {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.column {
+    float: left;
+    width: 50%;
+    padding: 10px;
+}
+
+
+/* Clear floats after the columns */
+
+.signup_container:after {
+    content: "";
+    display: table;
+    clear: both;
 }
