@@ -20,9 +20,10 @@ export class NotifyRequestComponent implements OnInit {
   style: string;
   email: string;
   beerArray: any;
-  allBreweries: any=['All Breweries'];
-  allStyles: any=['All Styles'];
+  allBreweries: any=['Any Breweries'];
+  allStyles: any=['Any Styles'];
   selectedBrewery: any;
+  test: any;
 
 
   constructor(private newService :CommonService,
@@ -49,14 +50,18 @@ export class NotifyRequestComponent implements OnInit {
           this.allStyles.push(this.style);
         }
       }
+      this.allBreweries=this.allBreweries.sort((a, b) => (a > b) ? 1 : -1);
+      this.allStyles=this.allStyles.sort((a, b) => (a > b) ? 1 : -1);
     });
   }
 
   updateSelect(){
-    if(this.breweryOption=='All Breweries'){
-      this.selectedBrewery = this.beerArray;
+    console.log(this.beerArray);
+    if(this.breweryOption=='Any Breweries'){
+      this.selectedBrewery = this.beerArray.filter(beer => beer.brewery === '');
     }else{
       this.selectedBrewery = this.beerArray.filter(beer => beer.brewery === this.breweryOption);
+      this.selectedBrewery=this.selectedBrewery.sort((a, b) => (a.name > b.name) ? 1 : -1);
     }
   }
 
@@ -81,10 +86,11 @@ export class NotifyRequestComponent implements OnInit {
 
     //rest of the code
     console.log(this.beerStyle);
-    this.newService.addNotification({email: this.email, brewery: this.breweryOption, style: this.beerStyle})
-      .subscribe(data =>  {
-        this.updateNotifications();
-      });
+    console.log(this.breweryOption);
+    // this.newService.addNotification({email: this.email, brewery: this.breweryOption, style: this.beerStyle})
+    //   .subscribe(data =>  {
+    //     this.updateNotifications();
+    //   });
   }
 
   deleteNotification = function(brewery,style) {    

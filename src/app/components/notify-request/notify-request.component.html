@@ -19,11 +19,11 @@
                             <option value="Any Beer or Style">Any Beer or Style</option>
                             
                             <optgroup label="Style">
-                                <option *ngFor="let style of this.allStyles"  value="{{style}}">{{style}}</option>
+                                <option *ngFor="let style of this.allStyles" value="{{style}}">{{style}}</option>
                             </optgroup>
 
                             <optgroup label="Beers">
-                                <option *ngFor="let beer of this.selectedBrewery"  value="{{beer.name}}">{{beer.name}}</option>
+                                <option *ngFor="let beer of this.selectedBrewery" value="{{beer.name}}">{{beer.name}}</option>
                             </optgroup>
                         </select>
                         <i id="addBTN" (click)="addNotification()" class="material-icons">add_circle</i>

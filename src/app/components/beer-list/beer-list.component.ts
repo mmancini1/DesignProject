@@ -35,7 +35,6 @@ export class BeerListComponent implements OnInit {
     this.beerListService.getBeer().subscribe(beerList => {
       this.currentBeer = beerList;
 
-
       let d=formatDate(new Date(), 'MM/dd/yy', 'en');
       this.currentBeer=this.currentBeer.result.filter(beer => beer.date === d);
       for(let i=0;i<this.currentBeer.length;i++){
@@ -59,6 +58,10 @@ export class BeerListComponent implements OnInit {
           this.newReleases.push(this.allBeers[item]);
         }
       }
+      this.currentBreweries=this.currentBreweries.sort((a, b) => (a > b) ? 1 : -1);
+      this.currentStyles=this.currentStyles.sort((a, b) => (a > b) ? 1 : -1);
+      this.currentBeer=this.currentBeer.sort((a,b) => (a.brewery>b.brewery) ? 1 : -1);
+
 
       console.log(this.newReleases);
 
