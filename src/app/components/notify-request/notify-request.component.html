@@ -15,16 +15,13 @@
                             <option *ngFor="let brew of this.allBreweries">{{brew}}</option>
                         </select> releases
 
-                        <select matNativeControl [(ngModel)]="beerStyle">
-                            <option value="Any Beer or Style">Any Beer or Style</option>
-                            
-                            <optgroup label="Style">
-                                <option *ngFor="let style of this.allStyles" value="{{style}}">{{style}}</option>
-                            </optgroup>
-
-                            <optgroup label="Beers">
-                                <option *ngFor="let beer of this.selectedBrewery" value="{{beer.name}}">{{beer.name}}</option>
-                            </optgroup>
+                        <select name='style' [(ngModel)]="beerStyle">
+                            <option  value='Any Style'>Any Style</option>
+                            <option *ngFor="let style of this.allStyles" value="{{style}}">{{style}}</option>
+                        </select> or
+                        <select name="beeroption" [(ngModel)]="beerOption">
+                            <option  value='Any Beer'>Any Beer</option>
+                            <option *ngFor="let beer of this.selectedBrewery" value="{{beer.name}}">{{beer.name}}</option>
                         </select>
                         <i id="addBTN" (click)="addNotification()" class="material-icons">add_circle</i>
                     </p>

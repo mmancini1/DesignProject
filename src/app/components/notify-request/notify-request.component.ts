@@ -23,7 +23,8 @@ export class NotifyRequestComponent implements OnInit {
   allBreweries: any=['Any Breweries'];
   allStyles: any=['Any Styles'];
   selectedBrewery: any;
-  test: any;
+  beerOption: any;
+  beeroption: string;
 
 
   constructor(private newService :CommonService,
