@@ -23,6 +23,10 @@
     font-size: 30px;
 }
 
+select {
+    max-width: 200px;
+}
+
 #addBTN {
     float: right;
     clear: both;

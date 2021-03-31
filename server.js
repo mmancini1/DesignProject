@@ -26,7 +26,6 @@ app.use(function(req, res, next) {
     next();
 });
 
-
 //verify user
 app.post("/api/login", function(req, res) {
     UserModel.findOne({ email: req.body.email }, function(err, result) {
@@ -85,6 +84,7 @@ app.post("/api/deleteNotification", function(req, res) {
 
 // add notifications
 app.post("/api/addNotification", function(req, res) {
+
     UserModel.updateOne({ email: req.body.email }, { '$push': { notifications: { brewery: req.body.brewery, style: req.body.style } } }, function(err, result) {
         if (err) {
             throw err
