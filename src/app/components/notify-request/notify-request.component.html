@@ -35,7 +35,12 @@
             <div class="bgColor">
                 <mat-list role="list">
                     <mat-list-item *ngFor="let n of notifications" role="listitem">
-                        <p>Notify me anytime <b><u>{{n.brewery}}</u></b> releases <b><u>{{n.style}}</u></b> <i id="delBTN" (click)="deleteNotification(n.brewery,n.style)" class="material-icons">delete_forever</i></p>
+                        <p>Notify me anytime <b><u>{{n.brewery}}</u></b> releases <b><u>
+                            <div *ngIf="n.style!=null; then thenBlock else elseBlock"></div>
+                                <ng-template #thenBlock>{{n.style}}</ng-template>
+                                <ng-template #elseBlock>{{n.name}}</ng-template>
+                            </u></b> <i id="delBTN" (click)="deleteNotification(n.brewery,n.style)" class="material-icons">delete_forever</i>
+                        </p>
                     </mat-list-item>
                 </mat-list>
             </div>

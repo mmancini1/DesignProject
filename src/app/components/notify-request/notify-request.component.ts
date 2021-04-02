@@ -57,7 +57,6 @@ export class NotifyRequestComponent implements OnInit {
   }
 
   updateSelect(){
-    console.log(this.beerArray);
     if(this.breweryOption=='Any Breweries'){
       this.selectedBrewery = this.beerArray.filter(beer => beer.brewery === '');
     }else{
@@ -87,11 +86,12 @@ export class NotifyRequestComponent implements OnInit {
 
     //rest of the code
     console.log(this.beerStyle);
+    console.log(this.beerOption);
     console.log(this.breweryOption);
-    // this.newService.addNotification({email: this.email, brewery: this.breweryOption, style: this.beerStyle})
-    //   .subscribe(data =>  {
-    //     this.updateNotifications();
-    //   });
+    this.newService.addNotification({email: this.email, brewery: this.breweryOption, style: this.beerStyle,name: this.beerOption})
+      .subscribe(data =>  {
+        this.updateNotifications();
+      });
   }
 
   deleteNotification = function(brewery,style) {    
