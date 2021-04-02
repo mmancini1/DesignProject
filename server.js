@@ -113,7 +113,7 @@ app.get("/api/getBeer", function(req, res) {
 
 function sendEmail(recipient, emailBody) {
     var transporter = nodemailer.createTransport({
-        service: 'gmail',
+        service: process.env.emailService,
         auth: {
             user: process.env.emailUser,
             pass: process.env.emailPass,
@@ -123,7 +123,7 @@ function sendEmail(recipient, emailBody) {
     var mailOptions = {
         from: process.env.emailFrom,
         // to: recipient,
-        to: 'footballmaniac0788@yahoo.com',
+        to: recipient,
         subject: "We've Got New Beer For You!",
         text: emailBody,
     };
