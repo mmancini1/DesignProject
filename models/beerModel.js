@@ -10,7 +10,7 @@ const BeerSchema = new Schema({
     description: { type: String },
     brewery: { type: String },
     date: { type: String },
-    img: { type: String },
+    style: { type: String },
     previousDate: { type: Array },
 });
 

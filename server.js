@@ -8,6 +8,10 @@ const nodemailer = require('nodemailer');
 const salt = 10;
 const BeerModel = require('./models/beerModel')
 const UserModel = require('./models/UserModel')
+const schedule = require('node-schedule');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 const db = mongo.connect("mongodb://localhost:27017/designProject", function(err, response) {
     if (err) { console.log(err); } else { console.log('Connected to DB'); }
@@ -73,7 +77,7 @@ app.post("/api/getNotifications", function(req, res) {
 
 // delete notifications
 app.post("/api/deleteNotification", function(req, res) {
-    UserModel.updateOne({ email: req.body.email }, { $pull: { notifications: { brewery: req.body.brewery, style: req.body.style } } }, function(err, result) {
+    UserModel.updateOne({ email: req.body.email }, { $pull: { notifications: { brewery: req.body.brewery, style: req.body.style, name: req.body.name } } }, function(err, result) {
         if (err) {
             throw err
         } else {
@@ -85,7 +89,7 @@ app.post("/api/deleteNotification", function(req, res) {
 // add notifications
 app.post("/api/addNotification", function(req, res) {
 
-    UserModel.updateOne({ email: req.body.email }, { '$push': { notifications: { brewery: req.body.brewery, style: req.body.style } } }, function(err, result) {
+    UserModel.updateOne({ email: req.body.email }, { '$push': { notifications: { brewery: req.body.brewery, style: req.body.style, name: req.body.name } } }, function(err, result) {
         if (err) {
             throw err
         } else {
@@ -111,15 +115,16 @@ function sendEmail(recipient, emailBody) {
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'beerfinder123@gmail.com',
-            pass: 'beerificationwebsite'
+            user: process.env.emailUser,
+            pass: process.env.emailPass,
         }
     });
 
     var mailOptions = {
-        from: 'BEERIFICATION <beerfinder123@gmail.com>',
-        to: recipient,
-        subject: "we've got beer for you!",
+        from: process.env.emailFrom,
+        // to: recipient,
+        to: 'footballmaniac0788@yahoo.com',
+        subject: "We've Got New Beer For You!",
         text: emailBody,
     };
 
@@ -133,41 +138,56 @@ function sendEmail(recipient, emailBody) {
 }
 
 
-function test() {
-    //this is a test for when I automate this piece
+function prepEmail() {
     const d = moment().format('MM/DD/YY');
-    UserModel.find({ email: { $exists: true } }, { email: 1, notifications: 1 }, function(err, result) {
+    const yesterday = moment().subtract(1, 'days').format('MM/DD/YY');
+    newBeer = [];
+
+    BeerModel.find({ date: d }, function(err, beers) {
         if (err) {
             throw err;
         } else {
-            //outer loop through users
-            for (let i = 0; i < result.length; i++) {
-                email = result[i].email;
-                //inner loop through users notifications
-                for (let j = 0; j < result[i].notifications.length; j++) {
-                    console.log(result[i].notifications[j]);
-                    brewery = result[i].notifications[j].brewery;
-                    style = result[i].notifications[j].style;
-                    BeerModel.find({ date: d, brewery: brewery, name: style }, function(err, beers) {
-                        if (err) {
-                            throw err;
-                        } else {
-                            if (beers.length > 0) {
-                                emailBody = beers[0].brewery + ' just released ' + beers[0].name;
-                                // sendEmail(email,emailBody);
-                            }
-                        }
-                    });
+            if (beers.length > 0) {
+                for (item in beers) {
+                    t = beers[item].previousDate;
+                    if (t[t.length - 2] != yesterday) {
+                        newBeer.push(beers[item]);
+                    }
                 }
-                //send email here
+                UserModel.find({ email: { $exists: true } }, { email: 1, notifications: 1 }, function(err, users) {
+                    if (err) {
+                        throw err;
+                    } else {
+                        //outer loop through users
+                        for (let i = 0; i < users.length; i++) {
+                            res = users[i].notifications;
+                            let emailBody = '';
+                            //inner loop through users notifications
+                            if (res.length > 0) {
+                                for (j = 0; j < res.length; j++) {
+                                    n = newBeer.filter(x => x.brewery === res[j].brewery && x.name === res[j].name || x.brewery === res[j].brewery && x.style.includes(res[j].style));
+                                    if (n.length > 0) {
+                                        //add notification
+                                        for (it = 0; it < n.length; it++) {
+                                            emailBody += `${n[it].brewery} just released ${n[it].name}\n`;
+                                        }
+                                    }
+                                }
+                            }
+                            sendEmail(users[i].email, emailBody);
+                        }
+                    }
+                });
             }
         }
     });
 }
 
-// test();
 
 
+const job = schedule.scheduleJob('30 16 * * *', function() {
+    prepEmail();
+});
 
 app.listen(8080, function() {
     console.log('App listening on port 8080!')
