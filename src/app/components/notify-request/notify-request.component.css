@@ -36,6 +36,11 @@ select {
     padding-left: 10px;
 }
 
+.clearall {
+    cursor: pointer;
+    padding-left: 10px;
+}
+
 h1 {
     color: wheat;
     margin-left: 200px;
@@ -48,6 +53,11 @@ body {
 mat-list-item:hover {
     background-color: rgba(255, 255, 255, .7);
     border-radius: 5px;
+}
+
+mat-form-field {
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 p {

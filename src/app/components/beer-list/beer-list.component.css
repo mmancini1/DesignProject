@@ -157,6 +157,11 @@
         opacity: 80%;
     }
     
+    .noNew {
+        color: white;
+        font-size: 48px;
+    }
+    
     body {
         padding-top: 50px;
     }

@@ -1,11 +1,9 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { CommonService } from '../../service';
 import { FormGroup,FormControl,Validators,FormsModule, } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { BeerListService } from '../../service/beerList/beer-list.service';
 import { AuthGuardService } from '../../service/auth-guard.service';
 import { AuthService } from '../../service/auth.service';
 
@@ -17,11 +15,9 @@ import { AuthService } from '../../service/auth.service';
 })
 
 export class HomeComponent implements OnInit{
-  title = 'Beer App';
+  title = 'BEERIFICATION';
 
-  constructor(private newService: CommonService,
-              private router: Router,
-              private beerListService: BeerListService,
+  constructor(private router: Router,
               private authService: AuthService,) {}  
 
    ngOnInit() {

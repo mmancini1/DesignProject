@@ -1,0 +1,19 @@
+.inner-container,
+.notifications {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.notifySpace {
+    margin-top: 50px;
+}
+
+h1 {
+    color: wheat;
+    margin-left: 200px;
+}
+
+body {
+    padding-top: 50px;
+}

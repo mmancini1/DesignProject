@@ -1,7 +1,3 @@
-<head>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-</head>
-
 <body>
     <div class="outer-container">
         <div class="notifySpace">
@@ -11,35 +7,69 @@
             <div class="bgColor">
                 <mat-nav-list>
                     <p>Notify me anytime
-                        <select name="breweryList" [(ngModel)]="breweryOption" (change)="updateSelect()">
-                            <option *ngFor="let brew of this.allBreweries">{{brew}}</option>
-                        </select> releases
 
-                        <select name='style' [(ngModel)]="beerStyle">
-                            <option  value='Any Style'>Any Style</option>
-                            <option *ngFor="let style of this.allStyles" value="{{style}}">{{style}}</option>
-                        </select> or
-                        <select name="beeroption" [(ngModel)]="beerOption">
-                            <option  value='Any Beer'>Any Beer</option>
-                            <option *ngFor="let beer of this.selectedBrewery" value="{{beer.name}}">{{beer.name}}</option>
-                        </select>
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Brewery</mat-label>
+                            <input type="text" aria-label="Brewery" matInput [formControl]="brewControl" [matAutocomplete]="brewery">
+                            <mat-autocomplete autoActiveFirstOption (optionSelected)="updateSelected($event)" #brewery="matAutocomplete">
+                                <mat-option *ngFor="let brewery of breweries | async" [value]="brewery">
+                                    {{brewery}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <button mat-button *ngIf="brewControl.value" matSuffix mat-icon-button aria-label="Clear" (click)="brewControl.setValue('');$event.stopPropagation();updateSelected('')">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </mat-form-field>
+
+                        releases
+
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Style</mat-label>
+                            <input type="text" aria-label="Style" matInput [formControl]="styleControl" [matAutocomplete]="style">
+                            <mat-autocomplete autoActiveFirstOption (optionSelected)="beerControl.setValue('')" #style="matAutocomplete">
+                                <mat-option *ngFor="let style of styles | async" [value]="style">
+                                    {{style}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <button mat-button *ngIf="styleControl.value" matSuffix mat-icon-button aria-label="Clear" (click)="styleControl.setValue('');$event.stopPropagation() ">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </mat-form-field>
+
+                        or
+
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Beer</mat-label>
+                            <input type="text" aria-label="Beer" matInput [formControl]="beerControl" [matAutocomplete]="beer">
+                            <mat-autocomplete autoActiveFirstOption (optionSelected)="styleControl.setValue('')" #beer="matAutocomplete">
+                                <mat-option *ngFor="let beer of beers | async" [value]="beer">
+                                    {{beer}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <button mat-button *ngIf="beerControl.value" matSuffix mat-icon-button aria-label="Clear" (click)="beerControl.setValue('');$event.stopPropagation() ">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </mat-form-field>
+
                         <i id="addBTN" (click)="addNotification()" class="material-icons">add_circle</i>
+
                     </p>
                 </mat-nav-list>
+                <a class="clearall" id="clearBTN" (click)="clearAll()">Clear All</a>
             </div>
         </div>
         <div class="notifySpace">
             <h1><b>Existing Notifications</b></h1>
         </div>
-        <div class="notifications" *ngIf="hasData>0">
+        <div class="notifications" *ngIf="hasData">
             <div class="bgColor">
                 <mat-list role="list">
-                    <mat-list-item *ngFor="let n of notifications" role="listitem">
-                        <p>Notify me anytime <b><u>{{n.brewery}}</u></b> releases <b><u>
-                            <div *ngIf="n.style!=null; then thenBlock else elseBlock"></div>
-                                <ng-template #thenBlock>{{n.style}}</ng-template>
-                                <ng-template #elseBlock>{{n.name}}</ng-template>
-                            </u></b> <i id="delBTN" (click)="deleteNotification(n.brewery,n.style)" class="material-icons">delete_forever</i>
+                    <mat-list-item *ngFor="let notification of notifications" role="listitem">
+                        <p>Notify me anytime <b><u>{{notification.brewery}}</u></b> releases <b><u>
+                            <div *ngIf="notification.style!=null; then thenBlock else elseBlock"></div>
+                                <ng-template #thenBlock>{{notification.style}}</ng-template>
+                                <ng-template #elseBlock>{{notification.name}}</ng-template>
+                            </u></b> <i id="delBTN" (click)="deleteNotification(notification)" class="material-icons">delete_forever</i>
                         </p>
                     </mat-list-item>
                 </mat-list>

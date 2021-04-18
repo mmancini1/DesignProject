@@ -3,7 +3,6 @@ import { CommonService } from '../../service';
 import { FormGroup, FormControl, Validators, FormsModule, FormBuilder } from '@angular/forms';  
 import { Router } from '@angular/router';
 import { UserDetailsService } from '../../service/user-details/user-details.service';
-import { AuthGuardService } from '../../service/auth-guard.service';
 import { AuthService } from '../../service/auth.service';
 
 @Component({
