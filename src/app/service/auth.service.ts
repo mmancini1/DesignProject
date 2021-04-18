@@ -19,6 +19,12 @@ export class AuthService {
     return of('/home/beerlist');
   }
 
+  signUp(): Observable<string> {
+    sessionStorage.setItem('login', 'true');
+    this.isLoggedIn=true;
+    return of('/home/notify');
+  }
+
   logout(): void {
       sessionStorage.clear();
       this.isLoggedIn = false;

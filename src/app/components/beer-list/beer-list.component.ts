@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../service';
-import {FormGroup,FormControl,Validators,FormsModule, } from '@angular/forms';  
+import { FormGroup,FormControl,Validators,FormsModule } from '@angular/forms';  
 import { MatTableDataSource } from '@angular/material/table';
 import { StarRatingComponent } from 'ng-starrating';
 import { Router } from '@angular/router';
@@ -12,6 +12,8 @@ import { formatDate } from '@angular/common';
   templateUrl: './beer-list.component.html',
   styleUrls: ['./beer-list.component.css']
 })
+
+
 export class BeerListComponent implements OnInit {
 
   beerRating: any= {' All Ratings':0,'1+ Star':1,'2+ Star':2,'3+ Star':3,'3.5+ Star':3.5,'4+ Star':4,'4.5+ Star':4.5};
@@ -20,6 +22,7 @@ export class BeerListComponent implements OnInit {
   currentStyles: any=['All Styles'];
   allBeers: any;
   newReleases: any=[];
+  newBeers: boolean=false;
 
   constructor(private newService: CommonService,
               private router: Router,
@@ -30,13 +33,49 @@ export class BeerListComponent implements OnInit {
     this.getBeers();
   }
 
+  getCurBeers(): void {
+    let style: string;
+    if(this.beerListService.currentBeers.length==0){
+        this.beerListService.getAllBeer().subscribe(beerList => {
+          this.currentBeer = beerList;
+          this.allBeers = this.currentBeer;
+          this.currentBreweries=this.beerListService.currentBreweries;
+          this.currentStyles = this.beerListService.currentStyles;
+        });
+    }else{
+          this.currentBeer = this.beerListService.currentBeers;
+          this.currentBreweries=this.beerListService.currentBreweries;
+          this.currentStyles = this.beerListService.currentStyles;
+    }
+        //this will get info for new releases
+    let d=formatDate(new Date(), 'MM/dd/yy', 'en');
+    let dt = new Date(d)
+    dt.setDate(dt.getDate() - 1)
+    let yesterday  = formatDate(dt,'MM/dd/yy', 'en');
+    for(let item in this.currentBeer){
+      let t = this.currentBeer[item].previousDate;
+      if(t[t.length-2]!=yesterday &&t[t.length-2]!=d){
+        this.newReleases.push(this.currentBeer[item]);
+      }
+    }
+    if(this.router.url =='/home/newReleases'){
+      if(this.newReleases.length==0){
+        this.newBeers = true;
+      }
+      this.currentBeer='';
+      this.currentBeer=this.newReleases;
+    }
+    this.currentBreweries=this.currentBreweries.sort((a, b) => (a > b) ? 1 : -1);
+    this.currentStyles=this.currentStyles.sort((a, b) => (a > b) ? 1 : -1);
+    this.currentBeer=this.currentBeer.sort((a,b) => (a.brewery>b.brewery) ? 1 : -1);
+  }
+
   getBeers(): void {
     let style: string;
-    this.beerListService.getBeer().subscribe(beerList => {
+    this.beerListService.getAllBeer().subscribe(beerList => {
       this.currentBeer = beerList;
-
       let d=formatDate(new Date(), 'MM/dd/yy', 'en');
-      this.currentBeer=this.currentBeer.result.filter(beer => beer.date === d);
+      this.currentBeer=this.currentBeer.filter(beer => beer.date === d);
       for(let i=0;i<this.currentBeer.length;i++){
         if(!this.currentBreweries.includes(this.currentBeer[i].brewery)){
           this.currentBreweries.push(this.currentBeer[i].brewery);
@@ -47,6 +86,10 @@ export class BeerListComponent implements OnInit {
         }
       }
       this.allBeers = this.currentBeer;
+      this.currentBreweries=this.currentBreweries.sort((a, b) => (a > b) ? 1 : -1);
+      this.currentStyles=this.currentStyles.sort((a, b) => (a > b) ? 1 : -1);
+      this.currentBeer=this.currentBeer.sort((a,b) => (a.brewery>b.brewery) ? 1 : -1);
+
       
       //this will get info for new releases
       let dt = new Date(d)
@@ -58,17 +101,20 @@ export class BeerListComponent implements OnInit {
           this.newReleases.push(this.allBeers[item]);
         }
       }
-      this.currentBreweries=this.currentBreweries.sort((a, b) => (a > b) ? 1 : -1);
-      this.currentStyles=this.currentStyles.sort((a, b) => (a > b) ? 1 : -1);
-      this.currentBeer=this.currentBeer.sort((a,b) => (a.brewery>b.brewery) ? 1 : -1);
-
-
-      console.log(this.newReleases);
-
+      if(this.router.url =='/home/newReleases'){
+        if(this.newReleases.length==0){
+          this.newBeers = true;
+        }
+        this.currentBeer='';
+        this.currentBeer=this.newReleases;
+        this.allBeers=this.currentBeer;
+      }
     });
   }
 
+
   sortByBrew(type){
+    console.log(type);
     if(type=='All Breweries'){
       this.currentBeer=this.allBeers;
     }else{

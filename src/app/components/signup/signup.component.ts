@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../service';
 import { FormGroup, FormControl, Validators, FormsModule, FormBuilder } from '@angular/forms'; 
 import { Router } from '@angular/router';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -11,6 +12,7 @@ import { Router } from '@angular/router';
 export class SignupComponent implements OnInit {
   registerForm: FormGroup;
   submitted: boolean = false;
+  validLogin = true;
   name: String;
   email: String;
   addr: String;
@@ -23,7 +25,8 @@ export class SignupComponent implements OnInit {
 
   constructor(private newService :CommonService,
               private route: Router,
-              private formBuilder: FormBuilder,) { }
+              private formBuilder: FormBuilder,
+              private authService: AuthService) { }
 
   ngOnInit(): void {
 
@@ -33,8 +36,7 @@ export class SignupComponent implements OnInit {
         addr: ['', [Validators.required]],
         city: ['', [Validators.required]],
         state: ['', [Validators.required]],
-        //need to validate this
-        zip: ['', [Validators.required,Validators.pattern('/[0-9]{5}/')]],
+        zip: ['', [Validators.required,]], //Validators.pattern('/[0-9]{5}/')
         conpass: ['', [Validators.required]],
         pass: ['', [Validators.required,Validators.minLength(6)]]
     });
@@ -42,18 +44,27 @@ export class SignupComponent implements OnInit {
 
   get f() { return this.registerForm.controls; }
 
-  onSave = function() {  
+  onSave = function() {
     this.submitted = true;
     if (this.registerForm.invalid) {
+      console.log('error');
+      console.log(this.registerForm);
         return;
-    } 
-    console.log(this.registerForm.value);
-    //if field in user.value fails dont send
-     this.newService.signUp(this.registerForm.value)  
-     .subscribe(data =>  {  alert(data.data);
-
-     }   
-     , error => this.errorMessage = error )  
-    this.route.navigate(['/notify']);
-   }
+    }
+    this.newService.signUp(this.registerForm.value)
+      .subscribe(data => {
+        console.log(data);
+        if(data.login==true){
+          this.authService.signUp().subscribe(redirectUrl => {
+            if (this.authService.isLoggedIn) {
+              sessionStorage.setItem('email',this.registerForm.value.email);
+              this.route.navigate([redirectUrl]);
+            }
+          });
+        }else{
+          //need to throw error
+          this.validLogin = false;
+        }
+    });
+  }
 }

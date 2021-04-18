@@ -6,6 +6,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { BeerListComponent } from './components/beer-list/beer-list.component';
 import { NotifyRequestComponent } from './components/notify-request/notify-request.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { ProfileComponent } from './components/profile/profile.component';
 import { AuthGuardService } from './service/auth-guard.service';
 
 // canActivate: [AuthGuardService] 
@@ -14,8 +15,10 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent,  },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuardService],
     children:[
-      {path: 'beerlist', component: BeerListComponent},
-      {path: 'notify', component: NotifyRequestComponent}
+      { path: 'beerlist', component: BeerListComponent },
+      { path: 'newReleases', component: BeerListComponent },
+      { path: 'notify', component: NotifyRequestComponent },
+      { path: 'profile', component: ProfileComponent },
     ],
   },
   { path: 'signup', component: SignupComponent, },

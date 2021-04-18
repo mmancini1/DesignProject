@@ -2,8 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../service';
 import { FormGroup,FormControl,Validators,FormsModule, FormArray, FormBuilder } from '@angular/forms';  
 import { MatTableDataSource } from '@angular/material/table';
-import { UserDetailsService } from '../../service/user-details/user-details.service';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 import { BeerListService } from '../../service/beerList/beer-list.service';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-notify-request',
@@ -12,94 +17,108 @@ import { BeerListService } from '../../service/beerList/beer-list.service';
 })
 export class NotifyRequestComponent implements OnInit {
 
-
-  breweryOption: string;
-  beerStyle: string;
+  brewControl = new FormControl();
+  styleControl = new FormControl();
+  beerControl = new FormControl();
+  breweries: Observable<string[]>;
+  styles: Observable<string[]>;
+  beers: Observable<string[]>;
   notifications: any =[];
-  hasData: number;
-  style: string;
+  hasData: boolean;
   email: string;
-  beerArray: any;
-  allBreweries: any=['Any Breweries'];
-  allStyles: any=['Any Styles'];
-  selectedBrewery: any;
-  beerOption: any;
-  beeroption: string;
 
 
-  constructor(private newService :CommonService,
-              private fb: FormBuilder,
-              private userDetails: UserDetailsService,
-              private beerListService: BeerListService) { }
+  constructor(private newService: CommonService,
+              private beerListService: BeerListService) {}
+
 
   ngOnInit(): void {
+    //get stored email for user
     this.email = sessionStorage.getItem('email');
+    //update page with current selection of notifications
     this.updateNotifications();
-    this.getBeers();
-  }
-
-  getBeers(): void {
-    this.beerListService.getBeer().subscribe(beerList => {
-      this.beerArray = beerList;
-      this.beerArray = this.beerArray.result;
-      for(let i=0;i<this.beerArray.length;i++){
-        if(!this.allBreweries.includes(this.beerArray[i].brewery)){
-          this.allBreweries.push(this.beerArray[i].brewery);
-        }
-        this.style = this.beerArray[i].style.split(' - ')[0]
-        if(!this.allStyles.includes(this.style)){
-          this.allStyles.push(this.style);
-        }
+    //populate dropdown menu with all avail breweries
+    this.beerListService.getBreweries().subscribe(val =>{
+        val.unshift('Any Brewery');
+        this.breweries = this.brewControl.valueChanges.pipe(
+            startWith(''),
+            map(value => this._filter(value,val))
+        );
+    });
+    //populate dropdown menu with all avail styles
+    this.beerListService.getStyles().subscribe(val =>{
+      val.unshift('Any Style');
+      for(let i=0;i<val.length;i++){
+        val[i] = val[i].split(' - ')[0]
       }
-      this.allBreweries=this.allBreweries.sort((a, b) => (a > b) ? 1 : -1);
-      this.allStyles=this.allStyles.sort((a, b) => (a > b) ? 1 : -1);
+      val =[...new Set(val)]
+      this.styles = this.styleControl.valueChanges.pipe(
+          startWith(''),
+          map(value => this._filter(value,val))
+      );
     });
   }
 
-  updateSelect(){
-    if(this.breweryOption=='Any Breweries'){
-      this.selectedBrewery = this.beerArray.filter(beer => beer.brewery === '');
-    }else{
-      this.selectedBrewery = this.beerArray.filter(beer => beer.brewery === this.breweryOption);
-      this.selectedBrewery=this.selectedBrewery.sort((a, b) => (a.name > b.name) ? 1 : -1);
-    }
+  //filter search results as user types
+  private _filter(value: string,v): string[] {
+    const filterValue = value.toLowerCase();
+    return v.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }
 
+  //update beer dropdown when brewery is changed 
+  updateSelected(e){
+    if(e==''){
+      this.beers = this.beerControl.value;
+      return;
+    }
+      this.beerListService.getBeers({brewery: e.option.value}).subscribe(val =>{
+        val.unshift('Any Beer');
+        this.beers = this.beerControl.valueChanges.pipe(
+            startWith(''),
+            map(value => this._filter(value,val))
+        );
+    });
+  }
+
+  //update page with current selection of notifications
   updateNotifications = function() {
     this.newService.getNotifications({email: this.email})  
     .subscribe(data =>  {
       if(data.length>0){
         this.notifications = data[0].notifications;
         if(this.notifications.length>0)
-          this.hasData=this.notifications.length;
+          this.hasData=true;
       }else{
-        this.hasData=0;
+        this.hasData=false;
       }
-    } 
-    , error => this.errorMessage = error )  
+    });  
   }
 
+  //add notification to shown notifications
   addNotification =function(){
-
-    //do error checking here
-    //also need to check if it already exists - if it does, then dont add it.
-
-    //rest of the code
-    console.log(this.beerStyle);
-    console.log(this.beerOption);
-    console.log(this.breweryOption);
-    this.newService.addNotification({email: this.email, brewery: this.breweryOption, style: this.beerStyle,name: this.beerOption})
-      .subscribe(data =>  {
-        this.updateNotifications();
-      });
+    if(this.brewControl.value != ''){
+      this.newService.addNotification({email: this.email, brewery: this.brewControl.value, style: this.styleControl.value, name: this.beerControl.value})
+        .subscribe(data =>  {
+          this.updateNotifications();
+        });
+        this.clearAll()
+    }
   }
 
-  deleteNotification = function(brewery,style) {    
-    this.newService.deleteNotification({email: this.email,brewery: brewery, style: style})  
+  //remove notification from db
+  deleteNotification = function(obj) {
+    this.newService.deleteNotification({email: this.email,brewery: obj.brewery, style: obj.style, name: obj.name})  
     .subscribe(data =>  { 
       this.updateNotifications();
-    } 
-    , error => this.errorMessage = error )  
+    });  
+  }
+
+  //clear all dropdowns
+  clearAll(){
+      this.beerControl.setValue('');
+      this.styleControl.setValue('');
+      this.brewControl.setValue('');
+
   }
 
 }

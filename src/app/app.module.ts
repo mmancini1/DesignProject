@@ -8,12 +8,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
@@ -26,6 +28,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthGuardService } from './service/auth-guard.service';
 import { AuthService } from './service/auth.service';
 import { MatStepperModule } from '@angular/material/stepper';
+import { BeerListService } from './service/beerList/beer-list.service';
+import { ProfileComponent } from './components/profile/profile.component';
 
 
 @NgModule({
@@ -36,7 +40,8 @@ import { MatStepperModule } from '@angular/material/stepper';
     SignupComponent,
     BeerListComponent,
     NotifyRequestComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -48,6 +53,7 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatTableModule,
     MatFormFieldModule,
     MatPaginatorModule,
+    MatAutocompleteModule,
     MatSortModule,
     MatInputModule,
     MatCardModule,
@@ -56,9 +62,10 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatStepperModule,
     MatListModule,
     MatToolbarModule,
+    MatIconModule,
     NgbModule,
   ],
-  providers: [CommonService, AuthGuardService, AuthService],
+  providers: [CommonService, BeerListService, AuthGuardService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

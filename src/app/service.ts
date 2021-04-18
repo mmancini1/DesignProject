@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
@@ -33,15 +33,27 @@ export class CommonService {
          )
     }
 
+
     //get beer data - retrieves entire db of beer
-    getBeer() {
-        return this.http.get('http://localhost:8080/api/getBeer/').pipe(
+    getBrew() {
+        return this.http.get('http://localhost:8080/api/getBreweries/').pipe(
             map((data: any) => {
                 return data;
             }), catchError(error => {
                 return throwError('get beer error');
             })
         )
+    }
+
+    //gets 
+    getUserDetails(user) {
+        return this.http.post('http://localhost:8080/api/getUserDetails/', user).pipe(
+            map((data: any) => {
+              return data;
+            }), catchError( error => {
+              return throwError( 'error' );
+            })
+         )
     }
 
 
