@@ -1,9 +1,47 @@
 <body>
     <div class="outer-container">
-        <div class="notifySpace">
-            <h1><b>Profile</b></h1>
-        </div>
         <div class="inner-container">
+            <div>
+                <div>
+                    <h1>Profile<i id="edit" (click)="edit()" class="material-icons" matTooltip="Edit Profile" matTooltipPosition="above">edit</i></h1>
+                </div>
+                <form class="edit" *ngIf="editForm" [formGroup]="editForm" (ngSubmit)="onSave()">
+                    <div class="form">
+                        <label>Name:</label>
+                        <input type="text" formControlName="name" class="edit" />
+
+                    </div>
+                    <div class="form">
+                        <label>Email Address:</label>
+                        <input type="text" formControlName="email" class="edit_action" />
+
+                    </div>
+                    <div class="form">
+                        <label>Address:</label>
+                        <input type="text" formControlName="addr" class="edit_action" />
+
+                    </div>
+                    <div class="form">
+                        <label>City:</label>
+                        <input type="text" formControlName="city" class="edit_action" />
+
+                    </div>
+                    <div class="form">
+                        <label>State:</label>
+                        <input type="text" formControlName="state" class="edit_action" />
+
+                    </div>
+                    <div class="form">
+                        <label>Zip:</label>
+                        <input type="text" formControlName="zip" class="edit_action" />
+
+                    </div>
+                    <div class="buttons" *ngIf='editEnabled'>
+                        <button (click)='cancel()'>Cancel</button>
+                        <button>Save</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </body>

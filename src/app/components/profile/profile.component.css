@@ -1,17 +1,30 @@
-.inner-container,
-.notifications {
+.inner-container {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 500px;
+    height: 400px;
+    margin: 100px auto;
+    padding: 50px 20px;
+    align-content: center;
+    background-color: rgba(245, 245, 245, .7);
+    border-radius: 5px;
 }
 
-.notifySpace {
-    margin-top: 50px;
+i {
+    color: dodgerblue;
+    cursor: pointer;
+    padding-left: 5px;
 }
 
-h1 {
-    color: wheat;
-    margin-left: 200px;
+input {
+    background-color: transparent;
+    color: black;
+    padding-left: 10px;
+}
+
+.buttons {
+    padding-top: 10px;
 }
 
 body {
