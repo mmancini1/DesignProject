@@ -46,18 +46,6 @@ export class CommonService {
     }
 
     //gets 
-    getUserDetails(user) {
-        return this.http.post('http://localhost:8080/api/getUserDetails/', user).pipe(
-            map((data: any) => {
-              return data;
-            }), catchError( error => {
-              return throwError( 'error' );
-            })
-         )
-    }
-
-
-    //gets 
     getNotifications(user) {
         return this.http.post('http://localhost:8080/api/getNotifications/', user).pipe(
             map((data: any) => {

@@ -3,7 +3,7 @@ import { CommonService } from '../../service';
 import { formatDate } from '@angular/common';
 import { Observable, of, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { map, catchError} from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 
 
 @Injectable({

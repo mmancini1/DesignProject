@@ -17,6 +17,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -62,6 +63,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     MatStepperModule,
     MatListModule,
     MatToolbarModule,
+    MatTooltipModule,
     MatIconModule,
     NgbModule,
   ],

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../service';
 import { FormGroup,FormControl,Validators,FormsModule } from '@angular/forms';  
-import { MatTableDataSource } from '@angular/material/table';
-import { StarRatingComponent } from 'ng-starrating';
 import { Router } from '@angular/router';
 import { BeerListService } from '../../service/beerList/beer-list.service';
 import { formatDate } from '@angular/common';

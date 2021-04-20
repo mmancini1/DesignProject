@@ -1,8 +1,4 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { FormGroup,FormControl,Validators,FormsModule, } from '@angular/forms';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { AuthGuardService } from '../../service/auth-guard.service';
 import { AuthService } from '../../service/auth.service';

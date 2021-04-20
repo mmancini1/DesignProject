@@ -96,7 +96,8 @@ export class NotifyRequestComponent implements OnInit {
 
   //add notification to shown notifications
   addNotification =function(){
-    if(this.brewControl.value != ''){
+    console.log(this.brewControl.value);
+    if(this.brewControl.value != null && this.brewControl.value !=''){
       this.newService.addNotification({email: this.email, brewery: this.brewControl.value, style: this.styleControl.value, name: this.beerControl.value})
         .subscribe(data =>  {
           this.updateNotifications();

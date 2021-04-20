@@ -75,8 +75,7 @@ app.post("/api/getUserDetails", function(req, res) {
         if (err) {
             throw err
         } else {
-            console.log(result);
-            res.send(result);
+            res.send(result[0]);
         }
     });
 });
@@ -257,7 +256,7 @@ function prepEmail() {
     });
 }
 
-const job = schedule.scheduleJob('30 16 * * *', function() {
+const job = schedule.scheduleJob('30 9 * * *', function() {
     prepEmail();
 });
 
