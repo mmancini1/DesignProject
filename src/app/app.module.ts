@@ -30,6 +30,7 @@ import { AuthGuardService } from './service/auth-guard.service';
 import { AuthService } from './service/auth.service';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BeerListService } from './service/beerList/beer-list.service';
+import { UserDetailsService } from './service/user-details/user-details.service'
 import { ProfileComponent } from './components/profile/profile.component';
 
 
@@ -67,7 +68,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     MatIconModule,
     NgbModule,
   ],
-  providers: [CommonService, BeerListService, AuthGuardService, AuthService],
+  providers: [CommonService, BeerListService, UserDetailsService, AuthGuardService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

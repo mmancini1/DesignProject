@@ -15,7 +15,7 @@ export class SignupComponent implements OnInit {
   validLogin = true;
   name: String;
   email: String;
-  addr: String;
+  street: String;
   city: String;
   state: String;
   zip: String;
@@ -33,10 +33,10 @@ export class SignupComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
         email: ['', [Validators.required, Validators.email]],
         name: ['', [Validators.required]],
-        addr: ['', [Validators.required]],
+        street: ['', [Validators.required]],
         city: ['', [Validators.required]],
         state: ['', [Validators.required]],
-        zip: ['', [Validators.required,]], //Validators.pattern('/[0-9]{5}/')
+        zip: ['', [Validators.required,]], 
         conpass: ['', [Validators.required]],
         pass: ['', [Validators.required,Validators.minLength(6)]]
     });

@@ -247,7 +247,6 @@ function prepEmail() {
                             if (emailBody) {
                                 sendEmail(users[i].email, emailBody);
                             }
-
                         }
                     }
                 });
@@ -256,7 +255,7 @@ function prepEmail() {
     });
 }
 
-const job = schedule.scheduleJob('30 9 * * *', function() {
+const job = schedule.scheduleJob('30 17 * * *', function() {
     prepEmail();
 });
 

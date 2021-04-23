@@ -28,9 +28,9 @@
 
             <div class="column right">
 
-                <input type="text" formControlName="addr" class="signup_action " placeholder="Address" [ngClass]="{ 'is-invalid': submitted && f.addr.errors }" />
-                <div *ngIf="submitted && f.addr.errors" class="invalid-feedback">
-                    <div *ngIf="f.addr.errors.required">Address is required</div>
+                <input type="text" formControlName="street" class="signup_action " placeholder="Address" [ngClass]="{ 'is-invalid': submitted && f.addr.errors }" />
+                <div *ngIf="submitted && f.street.errors" class="invalid-feedback">
+                    <div *ngIf="f.street.errors.required">Address is required</div>
                 </div>
 
                 <input type="text" formControlName="city" class="signup_action right" placeholder="City" [ngClass]="{ 'is-invalid': submitted && f.city.errors }" />
@@ -40,7 +40,7 @@
 
                 <select formControlName="state">
                     <option value="" disabled selected>State</option>
-                    <option *ngFor='let state of states' [ngClass]="{ 'is-invalid': submitted && f.state.errors }">{{state}}</option>
+                    <option class="state" *ngFor='let state of states' [ngClass]="{ 'is-invalid': submitted && f.state.errors }">{{state}}</option>
                 </select>
                 <div *ngIf="submitted && f.state.errors" class="invalid-feedback">
                     <div *ngIf="f.state.errors.required">State is required</div>
