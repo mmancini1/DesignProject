@@ -119,7 +119,6 @@ export class NotifyRequestComponent implements OnInit {
       this.beerControl.setValue('');
       this.styleControl.setValue('');
       this.brewControl.setValue('');
-
   }
 
 }
