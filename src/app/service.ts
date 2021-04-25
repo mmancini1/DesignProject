@@ -20,6 +20,18 @@ export class CommonService {
             })
          )
     }
+
+    //update user in db
+    updateUser(user) {
+        return this.http.post('http://localhost:8080/api/UpdateUser/', user).
+        pipe(
+            map((data: any) => {
+              return data;
+            }), catchError( error => {
+              return throwError( 'Something went wrong!' );
+            })
+         )
+    }
     
     //log in user holds username and password
     login(user) {
