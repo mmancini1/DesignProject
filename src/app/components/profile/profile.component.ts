@@ -13,6 +13,7 @@ import { UserDetailsService } from '../../service/user-details/user-details.serv
 export class ProfileComponent implements OnInit {
   name: string;
   email: string;
+  prevEmail: string;
   addr: string;
   city: string;
   state: string;
@@ -38,6 +39,7 @@ export class ProfileComponent implements OnInit {
         city: new FormControl({value: res.city, disabled: true}),
         state: new FormControl({value: res.state, disabled: true}),
         zip: new FormControl({value: res.zip, disabled: true}),
+        prevEmail: new FormControl({value: res.email}),
       });
     })
   }
@@ -60,7 +62,10 @@ export class ProfileComponent implements OnInit {
 
   onSave(){
     if(this.editForm.dirty){
-
+      console.log(this.editForm.value);
+      this.newService.updateUser(this.editForm.value).subscribe(data =>{
+        
+      });
     }
   }
 

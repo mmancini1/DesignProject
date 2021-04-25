@@ -31,7 +31,7 @@ app.use(function(req, res, next) {
     next();
 });
 
-//verify user
+//verify user for login
 app.post("/api/login", function(req, res) {
     UserModel.findOne({ email: req.body.email }, function(err, result) {
         bcrypt.compare(req.body.pass, result.pass, (err, match) => {
@@ -65,6 +65,19 @@ app.post("/api/SignUp", function(req, res) {
             });
         }
 
+    });
+});
+
+//saves new user info to db
+app.post("/api/updateUser", function(req, res) {
+    console.log(req.body);
+    UserModel.updateOne({ email: req.body.prevEmail.value }, { $set: { email: req.body.email, name: req.body.name, addr: req.body.street, city: req.body.city, state: req.body.state, zip: req.body.zip } }, function(err, result) {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(result);
+            console.log('success');
+        }
     });
 });
 
@@ -123,7 +136,7 @@ app.post("/api/addNotification", function(req, res) {
 });
 
 
-//retrieve beer
+//retrieve all beer
 app.get("/api/getBeer", function(req, res) {
     BeerModel.find(function(err, result) {
         if (err) {
@@ -134,7 +147,7 @@ app.get("/api/getBeer", function(req, res) {
     });
 });
 
-//retrieve beer
+//retrieve beer today only
 app.get("/api/getCurrentBeer", function(req, res) {
     const d = moment().format('MM/DD/YY');
     BeerModel.find({ date: d }, function(err, result) {
@@ -181,7 +194,7 @@ app.post("/api/getSelectedBeers", function(req, res) {
     });
 });
 
-
+//sends emails to users
 function sendEmail(recipient, emailBody) {
     var transporter = nodemailer.createTransport({
         service: process.env.emailService,
@@ -207,7 +220,7 @@ function sendEmail(recipient, emailBody) {
     });
 }
 
-
+//preps emails to users
 function prepEmail() {
     const d = moment().format('MM/DD/YY');
     const yesterday = moment().subtract(1, 'days').format('MM/DD/YY');
