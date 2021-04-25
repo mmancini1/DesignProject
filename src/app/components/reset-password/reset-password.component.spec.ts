@@ -7,14 +7,14 @@ describe('ResetPasswordComponent', () => {
   let component: ResetPasswordComponent;
   let fixture: ComponentFixture<ResetPasswordComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ ResetPasswordComponent ],
         imports: [ RouterTestingModule],
         providers: [FormBuilder ],
     })
     .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ResetPasswordComponent);
@@ -25,4 +25,16 @@ describe('ResetPasswordComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should fail to reset password', () => {
+    component.forgotForm.controls['email'].setValue('');
+    expect(component.forgotForm.invalid).toBeTruthy();
+  });
+
+  it('should reset password', () => {
+    component.forgotForm.controls['email'].setValue('test@test.com');
+    expect(component.forgotForm.valid).toBeTruthy();
+  });
+
+
 });

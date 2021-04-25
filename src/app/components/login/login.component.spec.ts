@@ -5,7 +5,7 @@ import { FormBuilder } from '@angular/forms';
 import { UserDetailsService } from '../../service/user-details/user-details.service';
 import { AuthGuardService } from '../../service/auth-guard.service';
 import { AuthService } from '../../service/auth.service';
-import { RouterTestingModule } from '@angular/router/testing'
+import { RouterTestingModule } from '@angular/router/testing';
 import { formatDate } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
@@ -18,14 +18,14 @@ describe('LoginComponent', () => {
   let fixture: ComponentFixture<LoginComponent>;
   let el = HTMLElement;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ LoginComponent ],
       imports: [HttpClientModule, RouterTestingModule,],
       providers: [CommonService, AuthService,FormBuilder],
     })
     .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);

@@ -14,14 +14,14 @@ describe('BeerListComponent', () => {
   let component: BeerListComponent;
   let fixture: ComponentFixture<BeerListComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
         declarations: [BeerListComponent,],
         imports: [FormsModule, HttpClientModule, RouterTestingModule],
         providers: [CommonService, ],
     })
     .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BeerListComponent);

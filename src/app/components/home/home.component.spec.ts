@@ -15,14 +15,14 @@ describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ HomeComponent ],
       imports: [FormsModule, HttpClientModule, RouterTestingModule,MatMenuModule ],
       providers: [CommonService, AuthService],
     })
     .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HomeComponent);
