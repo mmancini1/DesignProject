@@ -28,7 +28,7 @@
 
             <div class="column right">
 
-                <input type="text" formControlName="street" class="signup_action " placeholder="Address" [ngClass]="{ 'is-invalid': submitted && f.addr.errors }" />
+                <input type="text" formControlName="street" class="signup_action " placeholder="Address" [ngClass]="{ 'is-invalid': submitted && f.street.errors }" />
                 <div *ngIf="submitted && f.street.errors" class="invalid-feedback">
                     <div *ngIf="f.street.errors.required">Address is required</div>
                 </div>

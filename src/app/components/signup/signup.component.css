@@ -54,7 +54,7 @@ select {
     padding: 8.85px 13px;
     border-radius: 5px;
     box-shadow: none;
-    width: 184px;
+    width: 100%;
     height: 41px;
     border-width: 1px;
     border-color: gray;

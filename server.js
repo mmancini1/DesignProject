@@ -71,7 +71,7 @@ app.post("/api/SignUp", function(req, res) {
 //saves new user info to db
 app.post("/api/updateUser", function(req, res) {
     console.log(req.body);
-    UserModel.updateOne({ email: req.body.prevEmail.value }, { $set: { email: req.body.email, name: req.body.name, addr: req.body.street, city: req.body.city, state: req.body.state, zip: req.body.zip } }, function(err, result) {
+    UserModel.updateOne({ email: req.body.prevEmail.value }, { $set: { email: req.body.email, name: req.body.name, addr: req.body.addr, city: req.body.city, state: req.body.state, zip: req.body.zip } }, function(err, result) {
         if (err) {
             res.send(err);
         } else {
