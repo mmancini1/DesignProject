@@ -27,6 +27,31 @@ input {
     padding-top: 10px;
 }
 
+button {
+    color: white;
+    background-color: navy;
+    border: 0;
+    font-size: 14px;
+    padding: 8.85px 13px;
+    border-radius: 5px;
+    box-shadow: none;
+}
+
+button:hover {
+    opacity: 80%;
+    cursor: pointer;
+}
+
+button:active {
+    opacity: 100%;
+}
+
+.divider {
+    width: 5px;
+    height: auto;
+    display: inline-block;
+}
+
 body {
     padding-top: 50px;
 }

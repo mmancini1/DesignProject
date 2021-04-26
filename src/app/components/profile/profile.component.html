@@ -1,7 +1,7 @@
 <body>
     <div class="outer-container">
         <div class="inner-container">
-            <div>
+            <div class="content">
                 <div>
                     <h1>Profile<i id="edit" (click)="edit()" class="material-icons" matTooltip="Edit Profile" matTooltipPosition="above">edit</i></h1>
                 </div>
@@ -38,6 +38,7 @@
                     </div>
                     <div class="buttons" *ngIf='editEnabled'>
                         <button (click)='cancel()'>Cancel</button>
+                        <div class="divider"></div>
                         <button>Save</button>
                     </div>
                 </form>

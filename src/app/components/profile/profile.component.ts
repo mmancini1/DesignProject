@@ -64,8 +64,9 @@ export class ProfileComponent implements OnInit {
     if(this.editForm.dirty){
       console.log(this.editForm.value);
       this.newService.updateUser(this.editForm.value).subscribe(data =>{
-        
       });
+      this.editEnabled=false;
+      this.editForm.disable();
     }
   }
 

@@ -112,7 +112,6 @@ export class BeerListComponent implements OnInit {
 
 
   sortByBrew(type){
-    console.log(type);
     if(type=='All Breweries'){
       this.currentBeer=this.allBeers;
     }else{

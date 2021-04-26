@@ -53,9 +53,9 @@
                     </div>
                 </mat-card-content>
                 <p *ngIf="collapsed===i"><b>Description:</b> {{beer.description}}</p>
-                <p *ngIf='collapsed!=i; else showless'><u>Show More</u></p>
+                <p *ngIf='collapsed!=i; else showless'><u>Show Description</u></p>
                 <ng-template #showless>
-                    <p><u>Show Less</u></p>
+                    <p><u>Hide Description</u></p>
                 </ng-template>
 
             </mat-card>
