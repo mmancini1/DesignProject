@@ -3,7 +3,7 @@
         <h1>Create a New Account</h1>
         <form [formGroup]="registerForm" (ngSubmit)="onSave()">
             <div class="column left">
-
+                <!--required input fields for signup-->
                 <input type="text" formControlName="name" class="signup_action" placeholder="Name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
                 <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
                     <div *ngIf="f.name.errors.required">Name is required</div>
@@ -54,7 +54,7 @@
             </div>
             <button>Sign Up</button>
         </form>
-        <div class="test">
+        <div class="back">
             <a routerLink="/login">Go back</a>
         </div>
     </div>

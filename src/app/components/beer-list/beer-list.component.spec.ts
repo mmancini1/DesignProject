@@ -32,4 +32,7 @@ describe('BeerListComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+
+  
 });

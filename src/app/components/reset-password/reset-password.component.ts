@@ -8,6 +8,7 @@ import { FormGroup, FormControl, Validators, FormsModule, FormBuilder } from '@a
   styleUrls: ['./reset-password.component.css']
 })
 export class ResetPasswordComponent implements OnInit {
+  // vars
   forgotForm: FormGroup;
   email: String;
   submitted: boolean = false;
@@ -16,17 +17,21 @@ export class ResetPasswordComponent implements OnInit {
               private formBuilder: FormBuilder,) { }
 
   ngOnInit(): void {
-            this.forgotForm = this.formBuilder.group({
-            email: ['', [Validators.required, Validators.email]]
-        });
+    // set up form and validators
+    this.forgotForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]]
+    });
   }
+
   get f() { return this.forgotForm.controls; }
 
+  // submit form
   onSubmit(){
     this.submitted = true;
     if (this.forgotForm.invalid) {
         return;
     }
+    
     //send email
     alert('Check your email for reset instructions.');
     this.route.navigate(['/login']);

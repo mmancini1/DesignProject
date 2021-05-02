@@ -10,13 +10,15 @@ import { AuthService } from './auth.service';
 export class AuthGuardService implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
- canActivate(
+  //checks login
+  canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): true|UrlTree {
     const url: string = state.url;
     return this.checkLogin(url);
   }
 
+  //checks if user is logged in
   checkLogin(url: string): true|UrlTree {
     let login = sessionStorage.getItem('login');
     if (this.authService.isLoggedIn || login=='true') { return true; }

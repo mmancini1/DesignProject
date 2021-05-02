@@ -12,6 +12,7 @@ export class UserDetailsService {
   email: string;
   constructor(private http: HttpClient) { }
 
+  //store user info in session
   populateUser(info){
     this.user=info.name;
     this.email=info.email;

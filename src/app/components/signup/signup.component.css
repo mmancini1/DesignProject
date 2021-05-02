@@ -18,12 +18,13 @@
 }
 
 button {
-    width: 100%;
+    width: 95.5%;
     color: white;
     background-color: navy;
     border: 0;
     font-size: 14px;
     padding: 8.85px 13px;
+    margin-left: 10px;
     border-radius: 5px;
     box-shadow: none;
 }
@@ -42,6 +43,7 @@ input {
     font-size: 14px;
     padding: 8.85px 13px;
     border-radius: 5px;
+    width: 100%;
     box-shadow: none;
     border-width: 1px;
     border-color: gray;
@@ -65,14 +67,15 @@ a {
     margin-top: 15px;
 }
 
-test {
-    margin-top: 150px;
-}
-
 .background {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.back {
+    padding-top: 10px;
+    padding-left: 10px;
 }
 
 .column {

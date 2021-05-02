@@ -11,6 +11,10 @@
     border-radius: 5px;
 }
 
+h1 {
+    font-size: 32px;
+}
+
 i {
     color: dodgerblue;
     cursor: pointer;

@@ -10,6 +10,7 @@ import { AuthService } from '../../service/auth.service';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
+  // vars
   registerForm: FormGroup;
   submitted: boolean = false;
   validLogin = true;
@@ -29,7 +30,7 @@ export class SignupComponent implements OnInit {
               private authService: AuthService) { }
 
   ngOnInit(): void {
-
+    // register form and validators
     this.registerForm = this.formBuilder.group({
         email: ['', [Validators.required, Validators.email]],
         name: ['', [Validators.required]],
@@ -44,16 +45,17 @@ export class SignupComponent implements OnInit {
 
   get f() { return this.registerForm.controls; }
 
+  // submit form
   onSave = function() {
     this.submitted = true;
+    // if invalid form display errors and dont allow login
     if (this.registerForm.invalid) {
-      console.log('error');
-      console.log(this.registerForm);
+        this.validLogin = false;
         return;
     }
+    // attempt to signup
     this.newService.signUp(this.registerForm.value)
       .subscribe(data => {
-        console.log(data);
         if(data.login==true){
           this.authService.signUp().subscribe(redirectUrl => {
             if (this.authService.isLoggedIn) {
@@ -62,7 +64,6 @@ export class SignupComponent implements OnInit {
             }
           });
         }else{
-          //need to throw error
           this.validLogin = false;
         }
     });

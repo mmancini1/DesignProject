@@ -14,7 +14,6 @@ const app = express()
 
 
 dotenv.config();
-
 const db = mongo.connect(process.env.mongoDbUrl, { useUnifiedTopology: true, useNewUrlParser: true }, function(err, response) {
     if (err) { console.log(err); } else { console.log('Connected to DB'); }
 });
@@ -22,7 +21,6 @@ const db = mongo.connect(process.env.mongoDbUrl, { useUnifiedTopology: true, use
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', process.env.angularUrl);
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -70,13 +68,11 @@ app.post("/api/SignUp", function(req, res) {
 
 //saves new user info to db
 app.post("/api/updateUser", function(req, res) {
-    console.log(req.body);
     UserModel.updateOne({ email: req.body.prevEmail.value }, { $set: { email: req.body.email, name: req.body.name, addr: req.body.addr, city: req.body.city, state: req.body.state, zip: req.body.zip } }, function(err, result) {
         if (err) {
             res.send(err);
         } else {
             res.send(result);
-            console.log('success');
         }
     });
 });
@@ -92,7 +88,6 @@ app.post("/api/getUserDetails", function(req, res) {
         }
     });
 });
-
 
 //get notifications
 app.post("/api/getNotifications", function(req, res) {
@@ -135,7 +130,6 @@ app.post("/api/addNotification", function(req, res) {
     });
 });
 
-
 //retrieve all beer
 app.get("/api/getBeer", function(req, res) {
     BeerModel.find(function(err, result) {
@@ -158,7 +152,6 @@ app.get("/api/getCurrentBeer", function(req, res) {
         }
     });
 });
-
 
 //retrieve breweries only
 app.get("/api/getBreweries", function(req, res) {
@@ -203,14 +196,14 @@ function sendEmail(recipient, emailBody) {
             pass: process.env.emailPass,
         }
     });
-
+    //add mail options
     var mailOptions = {
         from: process.env.emailFrom,
         to: recipient,
         subject: "We've Got New Beer For You!",
         text: emailBody,
     };
-
+    //send email
     transporter.sendMail(mailOptions, function(error, info) {
         if (error) {
             console.log(error);
@@ -225,7 +218,7 @@ function prepEmail() {
     const d = moment().format('MM/DD/YY');
     const yesterday = moment().subtract(1, 'days').format('MM/DD/YY');
     newBeer = [];
-
+    //find all beers that are avail today that weren't before
     BeerModel.find({ date: d }, function(err, beers) {
         if (err) {
             throw err;
@@ -237,6 +230,7 @@ function prepEmail() {
                         newBeer.push(beers[item]);
                     }
                 }
+                //get all users
                 UserModel.find({ email: { $exists: true } }, { email: 1, notifications: 1 }, function(err, users) {
                     if (err) {
                         throw err;
@@ -268,10 +262,12 @@ function prepEmail() {
     });
 }
 
-const job = schedule.scheduleJob('30 17 * * *', function() {
+//scheduler to send emails 
+const job = schedule.scheduleJob('15 18 * * *', function() {
     prepEmail();
 });
 
+//start app
 app.listen(process.env.port, function() {
     console.log('Listening')
 })

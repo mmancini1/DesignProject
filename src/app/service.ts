@@ -8,7 +8,6 @@ export class CommonService {
 
     constructor(private http: HttpClient) { }
 
-
     //create user in db
     signUp(user) {
         return this.http.post('http://localhost:8080/api/SignUp/', user).
@@ -33,7 +32,7 @@ export class CommonService {
          )
     }
     
-    //log in user holds username and password
+    //log in user
     login(user) {
         return this.http.post('http://localhost:8080/api/login/', user).
         pipe(
@@ -44,7 +43,6 @@ export class CommonService {
             })
          )
     }
-
 
     //get beer data - retrieves entire db of beer
     getBrew() {
@@ -57,7 +55,7 @@ export class CommonService {
         )
     }
 
-    //gets 
+    //gets notifications
     getNotifications(user) {
         return this.http.post('http://localhost:8080/api/getNotifications/', user).pipe(
             map((data: any) => {
@@ -68,6 +66,7 @@ export class CommonService {
          )
     }
 
+    //add notification
     addNotification(info) {
         return this.http.post('http://localhost:8080/api/addNotification/', info).pipe(
             map((data: any) => {
@@ -78,6 +77,7 @@ export class CommonService {
          )
     }
 
+    //deletes notification
     deleteNotification(info) {
         return this.http.post('http://localhost:8080/api/deleteNotification/', info).pipe(
             map((data: any) => {
