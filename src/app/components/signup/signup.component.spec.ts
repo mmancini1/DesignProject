@@ -47,10 +47,7 @@ describe('SignupComponent', () => {
     component.registerForm.controls['name'].setValue('tester');
     component.registerForm.controls['street'].setValue('123 fake st');
     component.registerForm.controls['city'].setValue('warwick');
-    // const select: HTMLSelectElement = fixture.debugElement.query(By.css('#state')).nativeElement;
-    // select.value = select.options[3].value; 
     component.registerForm.controls['zip'].setValue('02888');
-    // component.onSave();
-    expect(component.registerForm.valid).toBeFalsy(); //change to truth for valid login
+    expect(component.registerForm.valid).toBeFalsy(); 
   });
 });

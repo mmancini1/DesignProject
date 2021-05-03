@@ -2,19 +2,19 @@
     <mat-nav-list class="list-horizontal">
         <!--button to nav to new releases for today-->
         <mat-list-item>
-            <button mat-menu-item routerLink='/home/newReleases'>Today's Releases</button>
+            <button mat-menu-item id="newReleases" routerLink='/home/newReleases'>Today's Releases</button>
         </mat-list-item>
         <!--button to nav to all avail beers today-->
         <mat-list-item>
-            <button mat-menu-item routerLink='/home/beerlist'>Current Selections</button>
+            <button mat-menu-item id="beerList" routerLink='/home/beerlist'>Current Selections</button>
         </mat-list-item>
         <!--button to nav to your notifications-->
         <mat-list-item>
-            <button mat-menu-item routerLink='/home/notify'>Notifications</button>
+            <button mat-menu-item id="notify" routerLink='/home/notify'>Notifications</button>
         </mat-list-item>
         <!--button to nav to settings (profile/logout)-->
         <mat-list-item>
-            <button mat-menu-item [matMenuTriggerFor]="settingsmenu">Settings</button>
+            <button mat-menu-item id="settings" [matMenuTriggerFor]="settingsmenu">Settings</button>
         </mat-list-item>
 
         <mat-menu #settingsmenu="matMenu" backdropClass="customize" [overlapTrigger]="false">
