@@ -28,7 +28,6 @@ import { FormGroup, FormControl, FormsModule, FormBuilder, ReactiveFormsModule }
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';  
 import { AuthGuardService } from './service/auth-guard.service';
 import { AuthService } from './service/auth.service';
-import { MatStepperModule } from '@angular/material/stepper';
 import { BeerListService } from './service/beerList/beer-list.service';
 import { UserDetailsService } from './service/user-details/user-details.service'
 import { ProfileComponent } from './components/profile/profile.component';
@@ -62,7 +61,6 @@ import { ProfileComponent } from './components/profile/profile.component';
     MatCardModule,
     MatButtonModule,
     MatMenuModule,
-    MatStepperModule,
     MatListModule,
     MatToolbarModule,
     MatTooltipModule,

@@ -11,6 +11,7 @@ import { UserDetailsService } from '../../service/user-details/user-details.serv
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+  // vars
   name: string;
   email: string;
   prevEmail: string;
@@ -29,7 +30,7 @@ export class ProfileComponent implements OnInit {
               private userDetails: UserDetailsService,) { }
 
   ngOnInit(): void {
-
+    // set up form for user input
     this.userDetails.getUserDetails({'email': sessionStorage.getItem('email')}).subscribe(res => {
       this.previousUser=res;
       this.editForm = new FormGroup({
@@ -46,6 +47,7 @@ export class ProfileComponent implements OnInit {
 
   get f() { return this.editForm.controls; }
 
+  // edit form
   edit(){
     if(this.editForm.disabled){
       this.editForm.enable();
@@ -55,19 +57,19 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  // cancel edit
   cancel(){
     this.editEnabled=false;
     this.editForm.disable();
   }
 
+  // save changes
   onSave(){
     if(this.editForm.dirty){
-      console.log(this.editForm.value);
       this.newService.updateUser(this.editForm.value).subscribe(data =>{
       });
-      this.editEnabled=false;
-      this.editForm.disable();
     }
+    this.editEnabled=false;
+    this.editForm.disable();
   }
-
 }

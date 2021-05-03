@@ -9,7 +9,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 import { ProfileComponent } from './components/profile/profile.component';
 import { AuthGuardService } from './service/auth-guard.service';
 
-// canActivate: [AuthGuardService] 
+//define routes
 const routes: Routes = [
   { path: '',  redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent,  },

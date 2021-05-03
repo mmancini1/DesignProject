@@ -11,9 +11,9 @@ import { formatDate } from '@angular/common';
   styleUrls: ['./beer-list.component.css']
 })
 
-
 export class BeerListComponent implements OnInit {
 
+  // variables
   beerRating: any= {' All Ratings':0,'1+ Star':1,'2+ Star':2,'3+ Star':3,'3.5+ Star':3.5,'4+ Star':4,'4.5+ Star':4.5};
   currentBeer: any=[];
   currentBreweries: any=['All Breweries'];
@@ -31,43 +31,7 @@ export class BeerListComponent implements OnInit {
     this.getBeers();
   }
 
-  getCurBeers(): void {
-    let style: string;
-    if(this.beerListService.currentBeers.length==0){
-        this.beerListService.getAllBeer().subscribe(beerList => {
-          this.currentBeer = beerList;
-          this.allBeers = this.currentBeer;
-          this.currentBreweries=this.beerListService.currentBreweries;
-          this.currentStyles = this.beerListService.currentStyles;
-        });
-    }else{
-          this.currentBeer = this.beerListService.currentBeers;
-          this.currentBreweries=this.beerListService.currentBreweries;
-          this.currentStyles = this.beerListService.currentStyles;
-    }
-        //this will get info for new releases
-    let d=formatDate(new Date(), 'MM/dd/yy', 'en');
-    let dt = new Date(d)
-    dt.setDate(dt.getDate() - 1)
-    let yesterday  = formatDate(dt,'MM/dd/yy', 'en');
-    for(let item in this.currentBeer){
-      let t = this.currentBeer[item].previousDate;
-      if(t[t.length-2]!=yesterday &&t[t.length-2]!=d){
-        this.newReleases.push(this.currentBeer[item]);
-      }
-    }
-    if(this.router.url =='/home/newReleases'){
-      if(this.newReleases.length==0){
-        this.newBeers = true;
-      }
-      this.currentBeer='';
-      this.currentBeer=this.newReleases;
-    }
-    this.currentBreweries=this.currentBreweries.sort((a, b) => (a > b) ? 1 : -1);
-    this.currentStyles=this.currentStyles.sort((a, b) => (a > b) ? 1 : -1);
-    this.currentBeer=this.currentBeer.sort((a,b) => (a.brewery>b.brewery) ? 1 : -1);
-  }
-
+  //get all beers on initail load
   getBeers(): void {
     let style: string;
     this.beerListService.getAllBeer().subscribe(beerList => {
@@ -88,8 +52,7 @@ export class BeerListComponent implements OnInit {
       this.currentStyles=this.currentStyles.sort((a, b) => (a > b) ? 1 : -1);
       this.currentBeer=this.currentBeer.sort((a,b) => (a.brewery>b.brewery) ? 1 : -1);
 
-      
-      //this will get info for new releases
+      // this will get info for new releases
       let dt = new Date(d)
       dt.setDate(dt.getDate() - 1)
       let yesterday  = formatDate(dt,'MM/dd/yy', 'en');
@@ -99,6 +62,7 @@ export class BeerListComponent implements OnInit {
           this.newReleases.push(this.allBeers[item]);
         }
       }
+      // display info based on page requested (newReleases or beerList)
       if(this.router.url =='/home/newReleases'){
         if(this.newReleases.length==0){
           this.newBeers = true;
@@ -110,7 +74,7 @@ export class BeerListComponent implements OnInit {
     });
   }
 
-
+  // sort cards by brewery
   sortByBrew(type){
     if(type=='All Breweries'){
       this.currentBeer=this.allBeers;
@@ -120,6 +84,7 @@ export class BeerListComponent implements OnInit {
     this.currentBeer = this.currentBeer.sort((a, b) => (a.name > b.name) ? 1 : -1);
   }
 
+  // sort cards by style
   sortByStyle(type){
     if(type=='All Styles'){
       this.currentBeer=this.allBeers;
@@ -129,6 +94,7 @@ export class BeerListComponent implements OnInit {
     this.currentBeer=this.currentBeer.sort((a, b) => (a.name > b.name) ? 1 : -1);
   }
 
+  // sort cards by rating
   sortByRating(type){
     if(type==0){
       this.currentBeer=this.allBeers;
@@ -138,7 +104,7 @@ export class BeerListComponent implements OnInit {
     this.currentBeer=this.currentBeer.sort((a, b) => (a.rating > b.rating) ? 1 : -1);
   }
 
-  //expand or collapse card
+  //expand or collapse details for card
   collapsed = -1;
   collapse(i) {
     if (this.collapsed === i) {

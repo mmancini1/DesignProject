@@ -7,10 +7,10 @@
             <div class="bgColor">
                 <mat-nav-list>
                     <p>Notify me anytime
-
+                        <!--form field for searching and displaying breweries-->
                         <mat-form-field class="example-full-width">
                             <mat-label>Brewery</mat-label>
-                            <input type="text" aria-label="Brewery" matInput [formControl]="brewControl" [matAutocomplete]="brewery">
+                            <input type="text" aria-label="Brewery" matInput [formControl]="brewControl" matTooltip="Start Typing or Click for Options" matTooltipPosition="above" [matAutocomplete]="brewery">
                             <mat-autocomplete autoActiveFirstOption (optionSelected)="updateSelected($event)" #brewery="matAutocomplete">
                                 <mat-option *ngFor="let brewery of breweries | async" [value]="brewery">
                                     {{brewery}}
@@ -22,10 +22,10 @@
                         </mat-form-field>
 
                         releases
-
+                        <!--form field for searching and displaying styles-->
                         <mat-form-field class="example-full-width">
                             <mat-label>Style</mat-label>
-                            <input type="text" aria-label="Style" matInput [formControl]="styleControl" [matAutocomplete]="style">
+                            <input type="text" aria-label="Style" matInput [formControl]="styleControl" matTooltip="Start Typing or Click for Options" matTooltipPosition="above" [matAutocomplete]="style">
                             <mat-autocomplete autoActiveFirstOption (optionSelected)="beerControl.setValue('')" #style="matAutocomplete">
                                 <mat-option *ngFor="let style of styles | async" [value]="style">
                                     {{style}}
@@ -37,10 +37,10 @@
                         </mat-form-field>
 
                         or
-
+                        <!--form field for searching and displaying beers-->
                         <mat-form-field class="example-full-width">
                             <mat-label>Beer</mat-label>
-                            <input type="text" aria-label="Beer" matInput [formControl]="beerControl" [matAutocomplete]="beer">
+                            <input type="text" aria-label="Beer" matInput [formControl]="beerControl" matTooltip="Start Typing or Click for Options" matTooltipPosition="above" [matAutocomplete]="beer">
                             <mat-autocomplete autoActiveFirstOption (optionSelected)="styleControl.setValue('')" #beer="matAutocomplete">
                                 <mat-option *ngFor="let beer of beers | async" [value]="beer">
                                     {{beer}}
@@ -50,8 +50,8 @@
                                 <mat-icon>close</mat-icon>
                             </button>
                         </mat-form-field>
-
-                        <i id="addBTN" (click)="addNotification()" class="material-icons">add_circle</i>
+                        <!-- button to add current selection-->
+                        <i id="addBTN" (click)="addNotification()" matTooltip="Fill out Brewery and style or beer. click to add to notifications" matTooltipPosition="above" class="material-icons">add_circle</i>
 
                     </p>
                 </mat-nav-list>
@@ -61,15 +61,16 @@
         <div class="notifySpace">
             <h1><b>Existing Notifications</b></h1>
         </div>
+        <!--display all existing notifications-->
         <div class="notifications" *ngIf="hasData">
             <div class="bgColor">
                 <mat-list role="list">
                     <mat-list-item *ngFor="let notification of notifications" role="listitem">
                         <p>Notify me anytime <b><u>{{notification.brewery}}</u></b> releases <b><u>
-                            <div *ngIf="notification.style!=null; then thenBlock else elseBlock"></div>
+                            <div *ngIf="notification.style!=''; then thenBlock else elseBlock"></div>
                                 <ng-template #thenBlock>{{notification.style}}</ng-template>
                                 <ng-template #elseBlock>{{notification.name}}</ng-template>
-                            </u></b> <i id="delBTN" (click)="deleteNotification(notification)" class="material-icons">delete_forever</i>
+                            </u></b> <i id="delBTN" (click)="deleteNotification(notification)" matTooltip="Delete notification" matTooltipPosition="above" class="material-icons">delete_forever</i>
                         </p>
                     </mat-list-item>
                 </mat-list>

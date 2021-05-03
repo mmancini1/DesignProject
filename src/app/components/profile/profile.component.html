@@ -5,7 +5,9 @@
                 <div>
                     <h1>Profile<i id="edit" (click)="edit()" class="material-icons" matTooltip="Edit Profile" matTooltipPosition="above">edit</i></h1>
                 </div>
+                <!--form for user details-->
                 <form class="edit" *ngIf="editForm" [formGroup]="editForm" (ngSubmit)="onSave()">
+                    <!--input fields-->
                     <div class="form">
                         <label>Name:</label>
                         <input type="text" formControlName="name" class="edit" />

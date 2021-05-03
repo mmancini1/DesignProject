@@ -16,7 +16,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
-  let el = HTMLElement;
+  let de: DebugElement;
+  let el: HTMLElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -40,7 +41,10 @@ describe('LoginComponent', () => {
   it('should get invalid login', () => {
     component.registerForm.controls['email'].setValue('');
     component.registerForm.controls['email'].setValue('');
+    component.onSubmit();
     fixture.detectChanges();
+    expect(component.registerForm.invalid).toBeTruthy();
+
   });
 
   it('should get login', () => {
@@ -48,5 +52,19 @@ describe('LoginComponent', () => {
     component.registerForm.controls['email'].setValue('test');
     component.onSubmit()
     fixture.detectChanges();
+    expect(component.registerForm).toBeTruthy();
   });
+
+  it('should check forgot login', () => {
+    de = fixture.debugElement.query(By.css('#forgotPass'));
+    el = de.nativeElement;
+    expect(el.textContent).toContain("Forgot Password?");
+  });
+
+  it('should check signup', () => {
+    de = fixture.debugElement.query(By.css('#signup'));
+    el = de.nativeElement;
+    expect(el.textContent).toContain("Sign Up");
+  });
+
 });

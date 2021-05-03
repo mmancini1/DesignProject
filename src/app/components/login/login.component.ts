@@ -24,33 +24,36 @@ export class LoginComponent implements OnInit {
               private authService: AuthService) { }
 
   ngOnInit() {
-        this.registerForm = this.formBuilder.group({
-            email: ['', [Validators.required, Validators.email]],
-            pass: ['', [Validators.required]]
-        });
+    // set up form and set validators
+    this.registerForm = this.formBuilder.group({
+        email: ['', [Validators.required, Validators.email]],
+        pass: ['', [Validators.required]]
+    });
   }
 
   get f() { return this.registerForm.controls; }
 
+  // form submitted
   onSubmit(){
     this.submitted = true;
+    // if invalid form display errors and dont allow login
     if (this.registerForm.invalid) {
         this.validLogin = false;
         return;
     }
-    this.newService.login(this.registerForm.value)
-      .subscribe(data => {
-          if(data.login==true){
-            this.authService.login().subscribe(redirectUrl => {
-              if (this.authService.isLoggedIn) {
-                sessionStorage.setItem('email',this.registerForm.value.email);
-                this.route.navigate([redirectUrl]);
-              }
-            });
-          }else{
-            this.validLogin = false;
-          }
-      });
+    // attempt login
+    this.newService.login(this.registerForm.value).subscribe(data => {
+        if(data.login==true){
+          this.authService.login().subscribe(redirectUrl => {
+            if (this.authService.isLoggedIn) {
+              sessionStorage.setItem('email',this.registerForm.value.email);
+              this.route.navigate([redirectUrl]);
+            }
+          });
+        }else{
+          this.validLogin = false;
+        }
+    });
   }
 
 }
